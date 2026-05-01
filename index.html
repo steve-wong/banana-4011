@@ -401,39 +401,9 @@
 
 </div>
 
+<script src="produce.js"></script>
 <script>
-const PRODUCE = [
-  { name:"Banana",           hint:"Yellow, conventional",   emoji:"🍌", plu:"4011", fact:"The most scanned PLU in US grocery history." },
-  { name:"Broccoli",         hint:"Fresh crown",             emoji:"🥦", plu:"3082", fact:"PLU codes starting with 3 or 4 are conventional produce." },
-  { name:"Fuji Apple",       hint:"Sweet & crisp",           emoji:"🍎", plu:"4131", fact:"Fujis were developed in Japan in the 1930s." },
-  { name:"Gala Apple",       hint:"Mildly sweet",            emoji:"🍎", plu:"4133", fact:"Gala apples originated in New Zealand." },
-  { name:"Granny Smith",     hint:"Tart green apple",        emoji:"🍏", plu:"4138", fact:"Named after Maria Ann 'Granny' Smith of Australia." },
-  { name:"Navel Orange",     hint:"Seedless, sweet",         emoji:"🍊", plu:"3107", fact:"The navel is actually a small undeveloped twin fruit." },
-  { name:"Lemon",            hint:"Conventional",            emoji:"🍋", plu:"4053", fact:"PLU 4053 covers most common lemon varieties." },
-  { name:"Lime",             hint:"Persian lime",            emoji:"🍋", plu:"4046", fact:"Most grocery limes are seedless Persian limes." },
-  { name:"Hass Avocado",     hint:"Small-medium",            emoji:"🥑", plu:"4225", fact:"Named after Rudolph Hass, who patented the tree in 1935." },
-  { name:"Strawberry",       hint:"Fresh pint",              emoji:"🍓", plu:"3083", fact:"Strawberries are the only fruit with seeds on the outside." },
-  { name:"Green Grapes",     hint:"Thompson seedless",       emoji:"🍇", plu:"4022", fact:"Thompson seedless are the world's most popular table grape." },
-  { name:"Mango",            hint:"Conventional",            emoji:"🥭", plu:"3114", fact:"Mangoes are the most consumed fruit in the world by weight." },
-  { name:"Pineapple",        hint:"Whole conventional",      emoji:"🍍", plu:"3430", fact:"It takes about 18 months to grow a single pineapple." },
-  { name:"Watermelon",       hint:"Seedless whole",          emoji:"🍉", plu:"3421", fact:"Watermelons are 92% water — hence the name." },
-  { name:"Roma Tomato",      hint:"Conventional",            emoji:"🍅", plu:"4087", fact:"Tomatoes are botanically a fruit but legally a vegetable in the US." },
-  { name:"Cucumber",         hint:"English cucumber",        emoji:"🥒", plu:"4062", fact:"Cucumbers are 96% water — even more than watermelon." },
-  { name:"Carrot",           hint:"Loose, conventional",     emoji:"🥕", plu:"4562", fact:"Carrots were originally purple before the orange variety was cultivated." },
-  { name:"Russet Potato",    hint:"Conventional",            emoji:"🥔", plu:"4072", fact:"Russets account for about 40% of all US potato sales." },
-  { name:"Yellow Onion",     hint:"Conventional",            emoji:"🧅", plu:"4093", fact:"Yellow onions caramelize best due to their high sugar content." },
-  { name:"Garlic",           hint:"Conventional bulb",       emoji:"🧄", plu:"4608", fact:"Garlic has been used medicinally for over 5,000 years." },
-  { name:"Kiwi",             hint:"Green, conventional",     emoji:"🥝", plu:"3279", fact:"Kiwis were originally called 'Chinese gooseberries'." },
-  { name:"Peach",            hint:"Yellow freestone",        emoji:"🍑", plu:"3035", fact:"Peaches are members of the rose family." },
-  { name:"Bartlett Pear",    hint:"Yellow, conventional",    emoji:"🍐", plu:"4409", fact:"Bartlett pears are the most common pear variety in the US." },
-  { name:"Blueberries",      hint:"Fresh pint",              emoji:"🫐", plu:"3329", fact:"Blueberries are one of the few fruits native to North America." },
-  { name:"Cantaloupe",       hint:"Whole conventional",      emoji:"🍈", plu:"4318", fact:"Cantaloupes are named after Cantalupo, a papal estate near Rome." },
-  { name:"Sweet Corn",       hint:"Yellow, conventional",    emoji:"🌽", plu:"4959", fact:"Corn has exactly as many rows of kernels as silks at the top." },
-  { name:"Red Bell Pepper",  hint:"Conventional",            emoji:"🫑", plu:"4688", fact:"Red bell peppers have 3× more vitamin C than oranges." },
-  { name:"Green Bell Pepper",hint:"Conventional",            emoji:"🫑", plu:"4065", fact:"Green bell peppers are simply unripe red, yellow, or orange peppers." },
-  { name:"Celery",           hint:"Conventional stalk",      emoji:"🥬", plu:"4070", fact:"Celery is 95% water and takes more energy to digest than it provides." },
-  { name:"Honeydew Melon",   hint:"Whole conventional",      emoji:"🍈", plu:"4519", fact:"Honeydew's pale green flesh is at peak sweetness when the rind turns creamy yellow." },
-];
+const PRODUCE = PRODUCE_DATA;
 
 const TOTAL_ROUNDS = 10;
 let TIMER_MS = 4000;
@@ -517,7 +487,7 @@ function nextRound() {
   emojiEl.className = 'produce-emoji pop';
   setTimeout(() => emojiEl.classList.remove('pop'), 200);
   document.getElementById('produce-name').textContent = currentItem.name;
-  document.getElementById('produce-hint').textContent = currentItem.hint;
+  document.getElementById('produce-hint').textContent = currentItem.variety;
 
   // Build choices: 1 correct + 3 distractors
   const distractors = shuffle(allPLUs.filter(p => p !== currentItem.plu)).slice(0, 3);
