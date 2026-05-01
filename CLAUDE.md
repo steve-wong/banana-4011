@@ -37,6 +37,20 @@ The entire game is a single self-contained file (`index.html`) with no dependenc
 
 Each round: `nextRound()` picks a random `PRODUCE` item, builds 4 choice buttons (1 correct + 3 shuffled distractors from `allPLUs`), then calls `startTimer()`. Answer handling branches to either `handleAnswer()` or `handleTimeout()`, both of which call `setTimeout(nextRound, 1800)` to advance.
 
+### Config file (`config.js`)
+
+All game settings live in `config.js` as the global `CONFIG` object. Add any new settings here — never hardcode game parameters in `index.html`.
+
+```js
+CONFIG.totalRounds      // number of rounds per game
+CONFIG.timerDefault     // starting slider value in seconds
+CONFIG.timerMin         // slider minimum in seconds
+CONFIG.timerMax         // slider maximum in seconds
+CONFIG.pointsCorrect    // base points per correct answer
+CONFIG.streakBonus      // bonus points per answer when on a streak
+CONFIG.streakThreshold  // streak length required to earn the bonus
+```
+
 ### Key state
 
 | Variable | Purpose |

@@ -340,9 +340,9 @@
     <div class="slider-wrap">
       <div class="slider-label">
         <span>Time per guess</span>
-        <span><span class="slider-val" id="timer-display">4</span>s</span>
+        <span><span class="slider-val" id="timer-display"></span>s</span>
       </div>
-      <input type="range" id="timer-slider" min="1" max="10" value="4"
+      <input type="range" id="timer-slider"
              oninput="document.getElementById('timer-display').textContent=this.value">
     </div>
     <button class="btn" onclick="startGame()">Start Game</button>
@@ -401,14 +401,15 @@
 
 </div>
 
+<script src="config.js"></script>
 <script src="produce.js"></script>
 <script>
 const PRODUCE = PRODUCE_DATA;
 
-const TOTAL_ROUNDS = 10;
-let TIMER_MS = 4000;
-const POINTS_CORRECT = 10;
-const STREAK_BONUS = 5;
+const TOTAL_ROUNDS = CONFIG.totalRounds;
+let TIMER_MS = CONFIG.timerDefault * 1000;
+const POINTS_CORRECT = CONFIG.pointsCorrect;
+const STREAK_BONUS = CONFIG.streakBonus;
 
 let score = 0;
 let streak = 0;
@@ -458,7 +459,7 @@ function startGame() {
 
 function updateScorebar() {
   document.getElementById('score-val').textContent = score;
-  document.getElementById('streak-val').textContent = streak + (streak >= 3 ? '🔥' : '');
+  document.getElementById('streak-val').textContent = streak + (streak >= CONFIG.streakThreshold ? '🔥' : '');
   bestStreak = Math.max(bestStreak, streak);
   document.getElementById('best-val').textContent = bestStreak;
 }
@@ -546,7 +547,7 @@ function handleAnswer(plu, btn) {
   });
 
   if (isCorrect) {
-    const bonus = streak >= 2 ? STREAK_BONUS : 0;
+    const bonus = streak >= CONFIG.streakThreshold - 1 ? STREAK_BONUS : 0;
     const pts = POINTS_CORRECT + bonus;
     score += pts;
     streak++;
@@ -626,6 +627,12 @@ function endGame() {
 }
 
 // Init
+const slider = document.getElementById('timer-slider');
+slider.min = CONFIG.timerMin;
+slider.max = CONFIG.timerMax;
+slider.value = CONFIG.timerDefault;
+document.getElementById('timer-display').textContent = CONFIG.timerDefault;
+
 showStart();
 </script>
 </body>
