@@ -402,16 +402,35 @@ input[type=range]::-moz-range-thumb {
 .pause-btn {
   margin-top: 12px;
   width: 100%;
-  transition: all 0.12s;
+  transition: all 0.15s;
+  border-color: #f9ca24;
+  color: #f9ca24;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+}
+.pause-btn:hover:not(:disabled) {
+  background: rgba(249, 202, 36, 0.12);
+  border-color: #f9ca24;
+  box-shadow: 0 0 12px rgba(249, 202, 36, 0.25);
 }
 .pause-btn:disabled {
-  opacity: 0.25;
+  opacity: 0.2;
   cursor: default;
   transform: none !important;
+  border-color: #2d3561;
+  color: #aaa;
+  box-shadow: none;
 }
 .pause-btn.continue {
-  border-color: #00b894;
-  color: #55efc4;
+  background: linear-gradient(135deg, #00b894, #55efc4);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(0, 184, 148, 0.4);
+}
+.pause-btn.continue:hover:not(:disabled) {
+  background: linear-gradient(135deg, #00a381, #44ddb3);
+  box-shadow: 0 6px 20px rgba(0, 184, 148, 0.5);
 }
 
 @keyframes shake {
