@@ -7,8 +7,11 @@ const CONFIG = {
   timerMin: 1,       // seconds
   timerMax: 10,      // seconds
 
-  // Review pause (ms to show the correct answer before advancing)
+  // Review pause (ms to show the correct answer before advancing; only used in auto-continue mode)
   reviewMs: 3000,
+
+  // Whether to auto-advance after reviewMs (true) or wait for the player to click Continue (false)
+  autoContinue: true,
 
   // Scoring
   pointsCorrect: 10,

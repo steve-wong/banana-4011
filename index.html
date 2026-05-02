@@ -26,6 +26,16 @@
       <input type="range" id="timer-slider"
              oninput="document.getElementById('timer-display').textContent=this.value">
     </div>
+    <div class="toggle-wrap">
+      <span class="toggle-label">After reveal</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="auto-continue-toggle">
+        <span class="toggle-track">
+          <span class="toggle-thumb"></span>
+        </span>
+      </label>
+      <span class="toggle-label" id="auto-continue-label"></span>
+    </div>
     <button class="btn" onclick="startGame()">Start Game</button>
     <p id="fun-fact"></p>
   </div>
@@ -106,6 +116,7 @@ let score = 0;
 let streak = 0;
 let bestStreak = 0;
 let round = 0;
+let autoContinue = CONFIG.autoContinue;
 let timerInterval = null;
 let timerStart = null;
 let reviewTimeout = null;
@@ -118,12 +129,18 @@ let highScore = parseInt(localStorage.getItem('plu_best') || '0');
 function startReview() {
   const btn = document.getElementById('pause-btn');
   btn.disabled = false;
-  btn.textContent = 'Pause';
   btn.classList.remove('continue');
-  reviewTimeout = setTimeout(() => {
-    btn.disabled = true;
-    nextRound();
-  }, CONFIG.reviewMs);
+  if (autoContinue) {
+    btn.textContent = 'Pause';
+    reviewTimeout = setTimeout(() => {
+      btn.disabled = true;
+      nextRound();
+    }, CONFIG.reviewMs);
+  } else {
+    btn.textContent = 'Continue';
+    btn.classList.add('continue');
+    reviewTimeout = null;
+  }
 }
 
 function togglePause() {
@@ -163,6 +180,7 @@ function randomFact() {
 
 function startGame() {
   TIMER_MS = parseInt(document.getElementById('timer-slider').value) * 1000;
+  autoContinue = document.getElementById('auto-continue-toggle').checked;
   score = 0;
   streak = 0;
   round = 0;
@@ -360,6 +378,15 @@ slider.min = CONFIG.timerMin;
 slider.max = CONFIG.timerMax;
 slider.value = CONFIG.timerDefault;
 document.getElementById('timer-display').textContent = CONFIG.timerDefault;
+
+const toggle = document.getElementById('auto-continue-toggle');
+function updateToggleLabel() {
+  document.getElementById('auto-continue-label').textContent =
+    toggle.checked ? 'Auto-continue' : 'Pause on reveal';
+}
+toggle.checked = CONFIG.autoContinue;
+toggle.addEventListener('change', updateToggleLabel);
+updateToggleLabel();
 
 showStart();
 </script>
