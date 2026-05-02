@@ -55,6 +55,11 @@ body {
   font-style: italic;
   line-height: 1.55;
   text-align: left;
+  width: 100%;
+}
+.tip-text + .tip-text {
+  padding-top: 10px;
+  border-top: 1px solid #1e2a50;
 }
 
 h1 {

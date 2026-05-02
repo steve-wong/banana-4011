@@ -69,7 +69,9 @@
 
       <div class="tip-panel" id="tip-panel">
         <span class="tip-icon">💡</span>
-        <p class="tip-text" id="fun-fact-game"></p>
+        <p class="tip-text" id="tip-fact"></p>
+        <p class="tip-text" id="tip-quality"></p>
+        <p class="tip-text" id="tip-memory"></p>
       </div>
     </div>
 
@@ -185,7 +187,9 @@ function nextRound() {
   document.getElementById('round-info').textContent = `Round ${round} of ${TOTAL_ROUNDS}`;
   document.getElementById('feedback').textContent = '';
   document.getElementById('feedback').className = '';
-  document.getElementById('fun-fact-game').textContent = '';
+  document.getElementById('tip-fact').textContent = '';
+  document.getElementById('tip-quality').textContent = '';
+  document.getElementById('tip-memory').textContent = '';
   document.getElementById('tip-panel').classList.remove('visible');
   document.getElementById('produce-card').className = 'produce-card';
   const pauseBtn = document.getElementById('pause-btn');
@@ -287,7 +291,9 @@ function handleAnswer(plu, btn) {
   }
 
   updateScorebar();
-  document.getElementById('fun-fact-game').textContent = currentItem.fact;
+  document.getElementById('tip-fact').textContent = currentItem.fact;
+  document.getElementById('tip-quality').textContent = currentItem.quality;
+  document.getElementById('tip-memory').textContent = currentItem.memoryTip;
   document.getElementById('tip-panel').classList.add('visible');
 
   startReview();
@@ -314,7 +320,9 @@ function handleTimeout() {
     if (bPlu === currentItem.plu) b.classList.add('reveal');
   });
 
-  document.getElementById('fun-fact-game').textContent = currentItem.fact;
+  document.getElementById('tip-fact').textContent = currentItem.fact;
+  document.getElementById('tip-quality').textContent = currentItem.quality;
+  document.getElementById('tip-memory').textContent = currentItem.memoryTip;
   document.getElementById('tip-panel').classList.add('visible');
   startReview();
 }

@@ -56,7 +56,7 @@ CONFIG.reviewMs         // ms to display the correct answer before advancing to 
 
 | Variable | Purpose |
 |---|---|
-| `PRODUCE` | Alias for `PRODUCE_DATA` from `produce.js` — 30 items: `{ plu, name, variety, emoji, fact, description, memoryTip }` |
+| `PRODUCE` | Alias for `PRODUCE_DATA` from `produce.js` — 30 items: `{ plu, name, variety, emoji, fact, quality, memoryTip }` |
 | `TIMER_MS` | Set from the slider at game start (1–10 s) |
 | `usedIndices` | Tracks which `PRODUCE` items have appeared this game to avoid repeats |
 | `answered` | Guard flag — prevents double-processing clicks and timer expiry |
@@ -79,8 +79,8 @@ All produce data lives in `produce.js` as the global `PRODUCE_DATA` array. Each 
   variety: "...",     // variety/sub-type shown in-game as a hint
   emoji: "🍌",        // visual representation
   fact: "...",        // revealed after each round
-  description: "",    // longer description (optional, populate as needed)
-  memoryTip: "",      // mnemonic for memorizing the PLU (optional)
+  quality: "...",     // how to distinguish from similar varieties, or quality indicators
+  memoryTip: "...",   // mnemonic for remembering this PLU
 }
 ```
 
