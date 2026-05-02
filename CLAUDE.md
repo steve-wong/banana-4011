@@ -49,6 +49,7 @@ CONFIG.timerMax         // slider maximum in seconds
 CONFIG.pointsCorrect    // base points per correct answer
 CONFIG.streakBonus      // bonus points per answer when on a streak
 CONFIG.streakThreshold  // streak length required to earn the bonus
+CONFIG.reviewMs         // ms to display the correct answer before advancing to the next round
 ```
 
 ### Key state

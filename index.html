@@ -571,7 +571,7 @@ function handleAnswer(plu, btn) {
   updateScorebar();
   document.getElementById('fun-fact-game').textContent = currentItem.fact;
 
-  setTimeout(nextRound, 1800);
+  setTimeout(nextRound, CONFIG.reviewMs);
 }
 
 function handleTimeout() {
@@ -596,7 +596,7 @@ function handleTimeout() {
   });
 
   document.getElementById('fun-fact-game').textContent = currentItem.fact;
-  setTimeout(nextRound, 1800);
+  setTimeout(nextRound, CONFIG.reviewMs);
 }
 
 function endGame() {
