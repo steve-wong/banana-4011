@@ -308,6 +308,21 @@
     letter-spacing: 0.5px;
   }
 
+  .pause-btn {
+    margin-top: 12px;
+    width: 100%;
+    transition: all 0.12s;
+  }
+  .pause-btn:disabled {
+    opacity: 0.25;
+    cursor: default;
+    transform: none !important;
+  }
+  .pause-btn.continue {
+    border-color: #00b894;
+    color: #55efc4;
+  }
+
   @keyframes shake {
     0%,100% { transform: translateX(0); }
     20% { transform: translateX(-8px); }
@@ -385,6 +400,7 @@
 
     <div class="choices" id="choices"></div>
     <p id="fun-fact-game" style="font-size:0.75rem;color:#555;font-style:italic;min-height:18px;"></p>
+    <button id="pause-btn" class="btn secondary pause-btn" onclick="togglePause()" disabled>Pause</button>
   </div>
 
   <!-- END SCREEN -->
@@ -417,11 +433,35 @@ let bestStreak = 0;
 let round = 0;
 let timerInterval = null;
 let timerStart = null;
+let reviewTimeout = null;
 let answered = false;
 let usedIndices = [];
 let currentItem = null;
 let allPLUs = PRODUCE.map(p => p.plu);
 let highScore = parseInt(localStorage.getItem('plu_best') || '0');
+
+function startReview() {
+  const btn = document.getElementById('pause-btn');
+  btn.disabled = false;
+  btn.textContent = 'Pause';
+  btn.classList.remove('continue');
+  reviewTimeout = setTimeout(() => {
+    btn.disabled = true;
+    nextRound();
+  }, CONFIG.reviewMs);
+}
+
+function togglePause() {
+  const btn = document.getElementById('pause-btn');
+  if (reviewTimeout) {
+    clearTimeout(reviewTimeout);
+    reviewTimeout = null;
+    btn.textContent = 'Continue';
+    btn.classList.add('continue');
+  } else {
+    nextRound();
+  }
+}
 
 function shuffle(arr) {
   const a = [...arr];
@@ -474,6 +514,10 @@ function nextRound() {
   document.getElementById('feedback').className = '';
   document.getElementById('fun-fact-game').textContent = '';
   document.getElementById('produce-card').className = 'produce-card';
+  const pauseBtn = document.getElementById('pause-btn');
+  pauseBtn.disabled = true;
+  pauseBtn.textContent = 'Pause';
+  pauseBtn.classList.remove('continue');
 
   // Pick a random item not used yet
   let available = PRODUCE.map((_, i) => i).filter(i => !usedIndices.includes(i));
@@ -571,7 +615,7 @@ function handleAnswer(plu, btn) {
   updateScorebar();
   document.getElementById('fun-fact-game').textContent = currentItem.fact;
 
-  setTimeout(nextRound, CONFIG.reviewMs);
+  startReview();
 }
 
 function handleTimeout() {
@@ -596,7 +640,7 @@ function handleTimeout() {
   });
 
   document.getElementById('fun-fact-game').textContent = currentItem.fact;
-  setTimeout(nextRound, CONFIG.reviewMs);
+  startReview();
 }
 
 function endGame() {
