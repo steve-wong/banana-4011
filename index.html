@@ -19,9 +19,49 @@
   }
 
   #app {
-    width: 420px;
+    width: 620px;
     text-align: center;
     padding: 0 16px;
+  }
+
+  .game-layout {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .game-main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tip-panel {
+    width: 158px;
+    flex-shrink: 0;
+    background: #16213e;
+    border-radius: 16px;
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .tip-panel.visible { opacity: 1; }
+
+  .tip-icon {
+    font-size: 1.8rem;
+    filter: drop-shadow(0 0 8px rgba(249, 202, 36, 0.8));
+    flex-shrink: 0;
+  }
+
+  .tip-text {
+    font-size: 0.72rem;
+    color: #aaa;
+    font-style: italic;
+    line-height: 1.55;
+    text-align: left;
   }
 
   h1 {
@@ -390,16 +430,23 @@
       <div id="timer-bar"></div>
     </div>
 
-    <div class="produce-card" id="produce-card">
-      <span class="produce-emoji" id="produce-emoji">🍌</span>
-      <div class="produce-name" id="produce-name">Banana</div>
-      <div class="produce-hint" id="produce-hint">Yellow, conventional</div>
+    <div class="game-layout">
+      <div class="game-main">
+        <div class="produce-card" id="produce-card">
+          <span class="produce-emoji" id="produce-emoji">🍌</span>
+          <div class="produce-name" id="produce-name">Banana</div>
+          <div class="produce-hint" id="produce-hint">Yellow, conventional</div>
+        </div>
+        <div id="feedback"></div>
+        <div class="choices" id="choices"></div>
+      </div>
+
+      <div class="tip-panel" id="tip-panel">
+        <span class="tip-icon">💡</span>
+        <p class="tip-text" id="fun-fact-game"></p>
+      </div>
     </div>
 
-    <div id="feedback"></div>
-
-    <div class="choices" id="choices"></div>
-    <p id="fun-fact-game" style="font-size:0.75rem;color:#555;font-style:italic;min-height:18px;"></p>
     <button id="pause-btn" class="btn secondary pause-btn" onclick="togglePause()" disabled>Pause</button>
   </div>
 
@@ -513,6 +560,7 @@ function nextRound() {
   document.getElementById('feedback').textContent = '';
   document.getElementById('feedback').className = '';
   document.getElementById('fun-fact-game').textContent = '';
+  document.getElementById('tip-panel').classList.remove('visible');
   document.getElementById('produce-card').className = 'produce-card';
   const pauseBtn = document.getElementById('pause-btn');
   pauseBtn.disabled = true;
@@ -614,6 +662,7 @@ function handleAnswer(plu, btn) {
 
   updateScorebar();
   document.getElementById('fun-fact-game').textContent = currentItem.fact;
+  document.getElementById('tip-panel').classList.add('visible');
 
   startReview();
 }
@@ -640,6 +689,7 @@ function handleTimeout() {
   });
 
   document.getElementById('fun-fact-game').textContent = currentItem.fact;
+  document.getElementById('tip-panel').classList.add('visible');
   startReview();
 }
 
