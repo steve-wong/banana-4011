@@ -224,7 +224,7 @@ function nextRound() {
 
   // Display produce
   const emojiEl = document.getElementById('produce-emoji');
-  emojiEl.textContent = currentItem.emoji;
+  emojiEl.innerHTML = currentItem.emoji;
   emojiEl.className = 'produce-emoji pop';
   setTimeout(() => emojiEl.classList.remove('pop'), 200);
   document.getElementById('produce-name').textContent = currentItem.name;
