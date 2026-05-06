@@ -612,7 +612,7 @@ const PRODUCE_DATA = [
     name: "Green Bell Pepper",
     variety: "Conventional",
     emoji: "🫑",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Green_capsicum.jpg/960px-Green_capsicum.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Green-Bell-Pepper.jpg/960px-Green-Bell-Pepper.jpg",
     fact: "Green bell peppers are simply unripe red, yellow, or orange peppers — picked early before they sweeten.",
     quality: "More bitter and less sweet than red (4688) or yellow (4689) bells because they haven't developed sugars yet. Choose firm, glossy, unwrinkled peppers. Wrinkling means moisture loss and age.",
     memoryTip: "4-0-6-5: green is 4065, red is 4688 — green is lower because it's less ripe.",
