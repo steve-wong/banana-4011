@@ -548,7 +548,7 @@ const PRODUCE_DATA = [
     name: "Garlic",
     variety: "Conventional bulb",
     emoji: "🧄",
-    image: "https://upload.wikimedia.org/wikipedia/commons/3/39/Allium_sativum_Woodwill_1793.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Garlic_bulb.jpg/960px-Garlic_bulb.jpg",
     fact: "Garlic has been used medicinally for over 5,000 years, including by Egyptian pyramid workers.",
     quality: "Choose firm, tight bulbs with dry papery skin. Avoid any soft spots or green sprouts — sprouted cloves taste bitter. Hardneck varieties have more complex flavour than softneck; softneck lasts longer.",
     memoryTip: "4-6-0-8: '46-08, garlic at the gate.'",
