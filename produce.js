@@ -600,7 +600,7 @@ const PRODUCE_DATA = [
     name: "Yellow Onion",
     variety: "Conventional",
     emoji: "🧅",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Mixed_onions.jpg/960px-Mixed_onions.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Onion_white_background.jpg/960px-Onion_white_background.jpg",
     fact: "Yellow onions become sweet and caramelized when cooked because their sulfur compounds convert to sugars.",
     quality: "vs white onion (4663): yellow is more complex and sweeter when cooked; white is sharper raw. vs red onion (4082): red is milder raw and used in salads. Choose firm, dry onions — avoid any with soft spots or green sprouts.",
     memoryTip: "4-0-9-3: 'four-oh-nine-three, yellow onion's free.'",
