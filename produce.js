@@ -632,7 +632,7 @@ const PRODUCE_DATA = [
     name: "Red Bell Pepper",
     variety: "Conventional",
     emoji: "🫑",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Red_Bell_Pepper.jpg/960px-Red_Bell_Pepper.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Red_bell_pepper.jpg/960px-Red_bell_pepper.jpg",
     fact: "Red bell peppers have 11 times more beta-carotene and 3 times more vitamin C than green bell peppers.",
     quality: "Red, yellow, and orange bells are fully ripened — sweeter and less bitter than green (4065), which is unripe. Red has an earthy sweetness; yellow is milder; orange is in between. Choose firm peppers that feel heavy with glossy skin.",
     memoryTip: "4-6-8-8: '46-88, red bell's great.'",
