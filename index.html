@@ -69,7 +69,7 @@
     <div class="game-layout">
       <div class="game-main">
         <div class="produce-card" id="produce-card">
-          <span class="produce-emoji" id="produce-emoji">🍌</span>
+          <img class="produce-image" id="produce-image" src="" alt="">
           <div class="produce-name" id="produce-name">Banana</div>
           <div class="produce-hint" id="produce-hint">Yellow, conventional</div>
         </div>
@@ -223,10 +223,11 @@ function nextRound() {
   currentItem = PRODUCE[idx];
 
   // Display produce
-  const emojiEl = document.getElementById('produce-emoji');
-  emojiEl.innerHTML = currentItem.emoji;
-  emojiEl.className = 'produce-emoji pop';
-  setTimeout(() => emojiEl.classList.remove('pop'), 200);
+  const imgEl = document.getElementById('produce-image');
+  imgEl.src = currentItem.image;
+  imgEl.alt = currentItem.name;
+  imgEl.className = 'produce-image pop';
+  setTimeout(() => imgEl.classList.remove('pop'), 200);
   document.getElementById('produce-name').textContent = currentItem.name;
   document.getElementById('produce-hint').textContent = currentItem.variety;
 
@@ -297,7 +298,7 @@ function handleAnswer(plu, btn) {
       ? `+${pts} pts (${POINTS_CORRECT} + ${bonus} streak bonus!)`
       : `+${pts} pts — Correct!`;
     feedback.className = 'correct';
-    document.getElementById('produce-emoji').classList.add('bounce');
+    document.getElementById('produce-image').classList.add('bounce');
   } else {
     streak = 0;
     card.classList.add('wrong');

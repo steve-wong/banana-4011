@@ -133,15 +133,19 @@ h1 {
 .produce-card.correct { border-color: #00b894; }
 .produce-card.wrong   { border-color: #d63031; }
 
-.produce-emoji {
-  font-size: 7rem;
-  line-height: 1;
+.produce-image {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
   margin-bottom: 14px;
   display: block;
+  margin-left: auto;
+  margin-right: auto;
   transition: transform 0.15s;
   filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+  border-radius: 12px;
 }
-.produce-emoji.pop { transform: scale(1.12); }
+.produce-image.pop { transform: scale(1.12); }
 
 .produce-name {
   font-size: 1.25rem;
