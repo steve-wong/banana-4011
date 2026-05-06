@@ -56,7 +56,7 @@ CONFIG.reviewMs         // ms to display the correct answer before advancing to 
 
 | Variable | Purpose |
 |---|---|
-| `PRODUCE` | Alias for `PRODUCE_DATA` from `produce.js` — 30 items: `{ plu, name, variety, emoji, fact, quality, memoryTip }` |
+| `PRODUCE` | Alias for `PRODUCE_DATA` from `produce.js` — 78 items: `{ plu, name, variety, emoji, fact, quality, memoryTip }` |
 | `TIMER_MS` | Set from the slider at game start (1–10 s) |
 | `usedIndices` | Tracks which `PRODUCE` items have appeared this game to avoid repeats |
 | `answered` | Guard flag — prevents double-processing clicks and timer expiry |
