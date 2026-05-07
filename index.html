@@ -111,6 +111,7 @@
           <span class="produce-emoji" id="produce-emoji-fallback" style="display:none"></span>
           <div class="produce-name" id="produce-name">Banana</div>
           <div class="produce-hint" id="produce-hint">Yellow, conventional</div>
+          <div class="photo-credit" id="photo-credit"></div>
         </div>
         <div id="feedback"></div>
         <div class="choices" id="choices"></div>
@@ -143,6 +144,7 @@
 
 <script src="config.js"></script>
 <script src="produce.js"></script>
+<script src="image_credits.js"></script>
 <script>
 const PRODUCE = PRODUCE_DATA;
 
@@ -274,6 +276,13 @@ function nextRound() {
   imgEl.src = currentItem.image;
   imgEl.alt = currentItem.name;
   imgEl.className = 'produce-image pop';
+  const credit = IMAGE_CREDITS[currentItem.plu];
+  const creditEl = document.getElementById('photo-credit');
+  if (credit) {
+    creditEl.innerHTML = `Photo: <a href="${credit.link}" target="_blank" rel="noopener">${credit.creator}</a>`;
+  } else {
+    creditEl.textContent = '';
+  }
   setTimeout(() => imgEl.classList.remove('pop'), 200);
   document.getElementById('produce-name').textContent = currentItem.name;
   document.getElementById('produce-hint').textContent = currentItem.variety;

@@ -165,6 +165,17 @@ h1 {
   letter-spacing: 0.5px;
 }
 
+.photo-credit {
+  font-size: 0.62rem;
+  color: #444;
+  margin-top: 6px;
+}
+.photo-credit a {
+  color: #555;
+  text-decoration: none;
+}
+.photo-credit a:hover { text-decoration: underline; }
+
 /* Choices */
 .choices {
   display: grid;
