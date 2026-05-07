@@ -386,6 +386,18 @@ input[type=range]::-moz-range-thumb {
 }
 .btn.secondary:hover { border-color: #6c5ce7; box-shadow: none; }
 
+/* Logo sticker */
+.sticker-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+.sticker-logo {
+  width: 300px;
+  max-width: 96%;
+  filter: drop-shadow(2px 4px 10px rgba(0,0,0,0.45));
+}
+
 /* Fun facts */
 #fun-fact {
   font-size: 0.75rem;

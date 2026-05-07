@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PLU Blitz — Guess the Produce Code!</title>
+<title>Banana 4011 — Guess the Produce Code!</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,9 +11,48 @@
 
   <!-- START SCREEN -->
   <div id="start-screen" class="screen active">
-    <h1>PLU Blitz</h1>
+    <div class="sticker-wrap">
+      <!-- Code 128B barcode for "4011": Start B · '4'(v20) · '0'(v16) · '1'(v17) · '1'(v17) · check(v69) · Stop -->
+      <svg class="sticker-logo" viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Banana 4011 PLU sticker">
+        <defs>
+          <linearGradient id="sticker-bg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#fffef5"/>
+            <stop offset="100%" stop-color="#fffadf"/>
+          </linearGradient>
+        </defs>
+        <rect x="6" y="6" width="288" height="168" rx="32" ry="32" fill="url(#sticker-bg)"/>
+        <rect x="6" y="6" width="288" height="168" rx="32" ry="32" fill="none" stroke="#f9ca24" stroke-width="5"/>
+        <rect x="13" y="13" width="274" height="154" rx="27" ry="27" fill="none" stroke="#f0932b" stroke-width="1.5" opacity="0.35"/>
+        <text x="150" y="33" font-family="'Segoe UI',system-ui,sans-serif" font-size="12" font-weight="700" fill="#b8943a" text-anchor="middle" letter-spacing="5">BANANA</text>
+        <text x="150" y="88" font-family="'Helvetica Neue',Arial,sans-serif" font-size="54" font-weight="900" fill="#1a1a1a" text-anchor="middle" letter-spacing="-2">4011</text>
+        <line x1="51" y1="97" x2="249" y2="97" stroke="#e0c96a" stroke-width="1"/>
+        <!-- barcode bars: module=2px, quiet zone=20px each side, dataStart x=71 -->
+        <rect x="71"  y="102" width="4" height="35" fill="#1a1a1a"/>
+        <rect x="77"  y="102" width="2" height="35" fill="#1a1a1a"/>
+        <rect x="87"  y="102" width="2" height="35" fill="#1a1a1a"/>
+        <rect x="93"  y="102" width="4" height="35" fill="#1a1a1a"/>
+        <rect x="101" y="102" width="2" height="35" fill="#1a1a1a"/>
+        <rect x="107" y="102" width="6" height="35" fill="#1a1a1a"/>
+        <rect x="115" y="102" width="2" height="35" fill="#1a1a1a"/>
+        <rect x="121" y="102" width="6" height="35" fill="#1a1a1a"/>
+        <rect x="129" y="102" width="4" height="35" fill="#1a1a1a"/>
+        <rect x="137" y="102" width="2" height="35" fill="#1a1a1a"/>
+        <rect x="143" y="102" width="6" height="35" fill="#1a1a1a"/>
+        <rect x="153" y="102" width="4" height="35" fill="#1a1a1a"/>
+        <rect x="159" y="102" width="2" height="35" fill="#1a1a1a"/>
+        <rect x="165" y="102" width="6" height="35" fill="#1a1a1a"/>
+        <rect x="175" y="102" width="4" height="35" fill="#1a1a1a"/>
+        <rect x="181" y="102" width="2" height="35" fill="#1a1a1a"/>
+        <rect x="189" y="102" width="4" height="35" fill="#1a1a1a"/>
+        <rect x="195" y="102" width="2" height="35" fill="#1a1a1a"/>
+        <rect x="203" y="102" width="4" height="35" fill="#1a1a1a"/>
+        <rect x="213" y="102" width="6" height="35" fill="#1a1a1a"/>
+        <rect x="221" y="102" width="2" height="35" fill="#1a1a1a"/>
+        <rect x="225" y="102" width="4" height="35" fill="#1a1a1a"/>
+        <text x="150" y="155" font-family="'Helvetica Neue',Arial,sans-serif" font-size="9" fill="#888" text-anchor="middle" letter-spacing="3">4 0 1 1</text>
+      </svg>
+    </div>
     <p class="tagline">Guess the produce code</p>
-    <span class="start-emoji">🛒</span>
     <p class="start-desc">
       Identify the PLU code for each piece of produce — just like a real cashier.<br>
       10 rounds. How many can you nail?
@@ -42,7 +81,7 @@
 
   <!-- GAME SCREEN -->
   <div id="game-screen" class="screen">
-    <h1>PLU Blitz</h1>
+    <h1>Banana 4011</h1>
     <p class="tagline">Guess the produce code</p>
 
     <div class="scorebar">
@@ -90,7 +129,7 @@
 
   <!-- END SCREEN -->
   <div id="end-screen" class="screen">
-    <h1>PLU Blitz</h1>
+    <h1>Banana 4011</h1>
     <p class="tagline">Game over</p>
     <p class="end-label">Your score</p>
     <div class="end-score" id="end-score">0</div>
