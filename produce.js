@@ -250,7 +250,7 @@ const PRODUCE_DATA = [
     name: "Kiwi",
     variety: "Green, conventional",
     emoji: "🥝",
-    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Actinidia_fruits.jpg/960px-Actinidia_fruits.jpg",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Whole_kiwifruit_on_white_background.jpg/960px-Whole_kiwifruit_on_white_background.jpg",
     fact: "Kiwis were originally called 'Chinese gooseberries' until New Zealand exporters rebranded them in the 1950s.",
     quality: "Green kiwi (3279) is tart and tangy with fuzzy brown skin. vs golden kiwi: smoother skin, sweeter, less acidic. Choose kiwis that yield slightly to pressure — rock-hard ones need several days on the counter to ripen.",
     memoryTip: "3-2-7-9: '32-79, kiwi's fine.'",
