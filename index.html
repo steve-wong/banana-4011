@@ -107,7 +107,8 @@
     <div class="game-layout">
       <div class="game-main">
         <div class="produce-card" id="produce-card">
-          <img class="produce-image" id="produce-image" src="" alt="">
+          <img class="produce-image" id="produce-image" src="" alt="" referrerpolicy="no-referrer">
+          <span class="produce-emoji" id="produce-emoji-fallback" style="display:none"></span>
           <div class="produce-name" id="produce-name">Banana</div>
           <div class="produce-hint" id="produce-hint">Yellow, conventional</div>
         </div>
@@ -262,6 +263,14 @@ function nextRound() {
 
   // Display produce
   const imgEl = document.getElementById('produce-image');
+  const emojiFallback = document.getElementById('produce-emoji-fallback');
+  imgEl.style.display = 'block';
+  emojiFallback.style.display = 'none';
+  imgEl.onerror = () => {
+    imgEl.style.display = 'none';
+    emojiFallback.textContent = currentItem.emoji;
+    emojiFallback.style.display = 'block';
+  };
   imgEl.src = currentItem.image;
   imgEl.alt = currentItem.name;
   imgEl.className = 'produce-image pop';

@@ -147,6 +147,13 @@ h1 {
 }
 .produce-image.pop { transform: scale(1.12); }
 
+.produce-emoji {
+  font-size: 7rem;
+  line-height: 1;
+  display: block;
+  margin-bottom: 14px;
+}
+
 .produce-name {
   font-size: 1.25rem;
   font-weight: 700;
