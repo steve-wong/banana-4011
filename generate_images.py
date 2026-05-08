@@ -32,12 +32,22 @@ def image_url(name, variety):
     encoded = urllib.parse.quote(prompt)
     return f"https://image.pollinations.ai/prompt/{encoded}?width=512&height=512&nologo=true&model=flux"
 
-def download(url, dest):
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        data = resp.read()
-    with open(dest, "wb") as f:
-        f.write(data)
+def download(url, dest, retries=3):
+    for attempt in range(1, retries + 1):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+            with urllib.request.urlopen(req, timeout=90) as resp:
+                data = resp.read()
+            with open(dest, "wb") as f:
+                f.write(data)
+            return
+        except Exception as e:
+            if attempt < retries:
+                wait = attempt * 5
+                print(f"retry {attempt}/{retries} in {wait}s ({e}) ", end="", flush=True)
+                time.sleep(wait)
+            else:
+                raise
 
 def main():
     parser = argparse.ArgumentParser()
@@ -65,7 +75,7 @@ def main():
         except Exception as e:
             print(f"FAILED: {e}", file=sys.stderr)
         if i < total:
-            time.sleep(0.5)  # be polite to the free service
+            time.sleep(2)  # Pollinations.ai free tier rate-limits fast bursts
 
 if __name__ == "__main__":
     main()
