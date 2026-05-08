@@ -133,25 +133,29 @@ h1 {
 .produce-card.correct { border-color: #00b894; }
 .produce-card.wrong   { border-color: #d63031; }
 
-.produce-image {
-  width: 180px;
-  height: 180px;
-  object-fit: contain;
-  margin-bottom: 14px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  transition: transform 0.15s;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
-  border-radius: 12px;
-}
-.produce-image.pop { transform: scale(1.12); }
 
 .produce-emoji {
   font-size: 7rem;
   line-height: 1;
-  display: block;
+  display: none;
   margin-bottom: 14px;
+}
+
+.produce-img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto 4px;
+}
+
+.ai-label {
+  font-size: 0.6rem;
+  color: #aaa;
+  font-style: italic;
+  text-align: center;
+  margin: 0 0 8px;
 }
 
 .produce-name {
@@ -165,16 +169,6 @@ h1 {
   letter-spacing: 0.5px;
 }
 
-.photo-credit {
-  font-size: 0.62rem;
-  color: #444;
-  margin-top: 6px;
-}
-.photo-credit a {
-  color: #555;
-  text-decoration: none;
-}
-.photo-credit a:hover { text-decoration: underline; }
 
 /* Choices */
 .choices {
@@ -475,10 +469,3 @@ input[type=range]::-moz-range-thumb {
   80% { transform: translateX(5px); }
 }
 .shake { animation: shake 0.35s ease; }
-
-@keyframes bounce {
-  0%,100% { transform: scale(1); }
-  40% { transform: scale(1.18); }
-  60% { transform: scale(0.95); }
-}
-.bounce { animation: bounce 0.35s ease; }
