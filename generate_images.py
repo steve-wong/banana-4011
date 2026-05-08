@@ -38,6 +38,8 @@ def download(url, dest, retries=3):
             req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
             with urllib.request.urlopen(req, timeout=90) as resp:
                 data = resp.read()
+            if len(data) < 5000:
+                raise ValueError(f"suspiciously small response ({len(data)} bytes)")
             with open(dest, "wb") as f:
                 f.write(data)
             return
