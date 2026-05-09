@@ -264,7 +264,22 @@ function nextRound() {
   currentItem = PRODUCE[idx];
 
   // Display produce
-  document.getElementById('produce-emoji-fallback').textContent = currentItem.emoji;
+  const produceImg = document.getElementById('produce-img');
+  const aiLabel = document.getElementById('ai-label');
+  const emojiEl = document.getElementById('produce-emoji-fallback');
+
+  emojiEl.textContent = currentItem.emoji;
+  emojiEl.style.display = 'none';
+  produceImg.style.display = 'block';
+  aiLabel.style.display = 'block';
+  produceImg.alt = currentItem.name;
+  produceImg.src = `images/${currentItem.plu}.jpg`;
+  produceImg.onerror = function() {
+    produceImg.style.display = 'none';
+    aiLabel.style.display = 'none';
+    emojiEl.style.display = 'inline';
+  };
+
   document.getElementById('produce-name').textContent = currentItem.name;
   document.getElementById('produce-hint').textContent = currentItem.variety;
 
