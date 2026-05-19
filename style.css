@@ -472,7 +472,7 @@ input[type=range]::-moz-range-thumb {
 
 /* Settings screen */
 #settings-screen {
-  padding: 20px 0 100px;
+  padding: 20px 0 24px;
   text-align: left;
 }
 
@@ -570,8 +570,8 @@ input[type=range]::-moz-range-thumb {
 }
 
 .settings-list {
-  max-height: 400px;
-  overflow-y: auto;
+  max-height: calc(100vh - 280px);
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -620,7 +620,7 @@ input[type=range]::-moz-range-thumb {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 7px 12px 7px 0;
+  padding: 10px 12px 10px 0;
   cursor: pointer;
   user-select: none;
   border-radius: 8px;
@@ -637,10 +637,10 @@ input[type=range]::-moz-range-thumb {
 }
 
 .item-plu {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  color: #555;
-  letter-spacing: 1px;
+  color: #888;
+  letter-spacing: 1.5px;
   font-family: monospace;
 }
 
