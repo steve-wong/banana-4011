@@ -190,6 +190,7 @@ let reviewTimeout = null;
 let answered = false;
 let usedIndices = [];
 let currentItem = null;
+let activePRODUCE = [];
 let allPLUs = PRODUCE.map(p => p.plu);
 let highScore = parseInt(localStorage.getItem('plu_best') || '0');
 
@@ -339,6 +340,10 @@ function randomFact() {
 function startGame() {
   TIMER_MS = parseInt(document.getElementById('timer-slider').value) * 1000;
   autoContinue = document.getElementById('auto-continue-toggle').checked;
+  const saved = JSON.parse(localStorage.getItem('plu_filter') || 'null');
+  activePRODUCE = (saved && saved.length >= 4)
+    ? PRODUCE.filter(p => saved.includes(p.plu))
+    : [...PRODUCE];
   score = 0;
   streak = 0;
   round = 0;
@@ -374,11 +379,11 @@ function nextRound() {
   pauseBtn.classList.remove('continue');
 
   // Pick a random item not used yet
-  let available = PRODUCE.map((_, i) => i).filter(i => !usedIndices.includes(i));
-  if (available.length === 0) { usedIndices = []; available = PRODUCE.map((_, i) => i); }
+  let available = activePRODUCE.map((_, i) => i).filter(i => !usedIndices.includes(i));
+  if (available.length === 0) { usedIndices = []; available = activePRODUCE.map((_, i) => i); }
   const idx = available[Math.floor(Math.random() * available.length)];
   usedIndices.push(idx);
-  currentItem = PRODUCE[idx];
+  currentItem = activePRODUCE[idx];
 
   // Display produce
   const produceImg = document.getElementById('produce-img');
@@ -401,7 +406,8 @@ function nextRound() {
   document.getElementById('produce-hint').textContent = currentItem.variety;
 
   // Build choices: 1 correct + 3 distractors
-  const distractors = shuffle(allPLUs.filter(p => p !== currentItem.plu)).slice(0, 3);
+  const activePLUs = activePRODUCE.map(p => p.plu);
+  const distractors = shuffle(activePLUs.filter(p => p !== currentItem.plu)).slice(0, 3);
   const choices = shuffle([currentItem.plu, ...distractors]);
 
   const choicesEl = document.getElementById('choices');
