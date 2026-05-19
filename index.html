@@ -201,7 +201,7 @@ function showSettings() {
 
 function buildSettingsScreen() {
   const saved = JSON.parse(localStorage.getItem('plu_filter') || 'null');
-  const activePLUs = saved ? new Set(saved) : new Set(PRODUCE.map(p => p.plu));
+  const activePLUSet = saved ? new Set(saved) : new Set(PRODUCE.map(p => p.plu));
 
   const categories = {};
   PRODUCE.forEach(p => {
@@ -213,8 +213,8 @@ function buildSettingsScreen() {
   container.innerHTML = '';
 
   Object.entries(categories).forEach(([cat, items]) => {
-    const allChecked = items.every(p => activePLUs.has(p.plu));
-    const someChecked = items.some(p => activePLUs.has(p.plu));
+    const allChecked = items.every(p => activePLUSet.has(p.plu));
+    const someChecked = items.some(p => activePLUSet.has(p.plu));
 
     const group = document.createElement('div');
     group.className = 'settings-group';
@@ -227,7 +227,7 @@ function buildSettingsScreen() {
       <div class="group-items">
         ${items.map(p => `
           <label class="item-row">
-            <input type="checkbox" class="item-check" data-plu="${p.plu}" ${activePLUs.has(p.plu) ? 'checked' : ''}>
+            <input type="checkbox" class="item-check" data-plu="${p.plu}" ${activePLUSet.has(p.plu) ? 'checked' : ''}>
             <span class="item-emoji">${p.emoji}</span>
             <span class="item-name">${p.name}</span>
             <span class="item-plu">${p.plu}</span>
@@ -268,8 +268,10 @@ function onFilterChange() {
 }
 
 function updateStartGuard() {
-  const saved = JSON.parse(localStorage.getItem('plu_filter') || 'null');
-  const count = saved ? saved.length : PRODUCE.length;
+  const itemChecks = document.querySelectorAll('.item-check');
+  const count = itemChecks.length > 0
+    ? [...itemChecks].filter(c => c.checked).length
+    : (() => { const s = JSON.parse(localStorage.getItem('plu_filter') || 'null'); return s ? s.length : PRODUCE.length; })();
   const btn = document.getElementById('start-btn');
   const warning = document.getElementById('filter-warning');
   btn.disabled = count < 4;
