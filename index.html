@@ -11,6 +11,7 @@
 
   <!-- START SCREEN -->
   <div id="start-screen" class="screen active">
+  <button class="gear-btn" onclick="showSettings()" aria-label="Settings">⚙</button>
     <div class="sticker-wrap">
       <!-- Code 128B barcode for "4011": Start B · '4'(v20) · '0'(v16) · '1'(v17) · '1'(v17) · check(v69) · Stop -->
       <svg class="sticker-logo" viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Banana 4011 PLU sticker">
@@ -74,7 +75,7 @@
       </label>
       <span class="toggle-label" id="auto-continue-label"></span>
     </div>
-    <button class="btn" onclick="startGame()">Start Game</button>
+    <button class="btn" id="start-btn" onclick="startGame()">Start Game</button>
     <p id="fun-fact"></p>
   </div>
 
@@ -138,6 +139,31 @@
     <button class="btn" onclick="startGame()">Play Again</button>
     <button class="btn secondary" onclick="showStart()">Home</button>
     <p id="fun-fact-end" style="font-size:0.75rem;color:#555;font-style:italic;margin-top:14px;min-height:18px;"></p>
+  </div>
+
+  <!-- SETTINGS SCREEN -->
+  <div id="settings-screen" class="screen">
+    <div class="settings-header">
+      <button class="back-btn" onclick="showStart()">← Back</button>
+      <h2 class="settings-title">Settings</h2>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-header">
+        <span class="settings-section-title">PLU Filter</span>
+        <div class="select-all-wrap">
+          <button class="text-btn" onclick="selectAllFilter(true)">Select All</button>
+          <span class="divider">·</span>
+          <button class="text-btn" onclick="selectAllFilter(false)">Deselect All</button>
+        </div>
+      </div>
+      <div id="filter-warning" class="filter-warning" style="display:none">
+        Select at least 4 items to play
+      </div>
+      <div id="settings-list" class="settings-list"></div>
+    </div>
+
+    <button class="btn settings-done-btn" onclick="showStart()">Done</button>
   </div>
 
 </div>
