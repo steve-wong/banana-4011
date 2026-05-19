@@ -127,7 +127,7 @@ const PRODUCE_DATA = [
   // ===== BANANA =====
   {
     plu: "4011",
-    category: "Banana",
+    category: "Bananas",
     name: "Banana",
     variety: "Yellow, conventional",
     emoji: "🍌",
@@ -269,7 +269,7 @@ const PRODUCE_DATA = [
   // ===== KIWI =====
   {
     plu: "3279",
-    category: "Kiwi",
+    category: "Kiwis",
     name: "Kiwi",
     variety: "Green, conventional",
     emoji: "🥝",
@@ -477,7 +477,7 @@ const PRODUCE_DATA = [
   // ===== PINEAPPLE =====
   {
     plu: "4430",
-    category: "Pineapple",
+    category: "Pineapples",
     name: "Pineapple",
     variety: "Whole conventional",
     emoji: "🍍",
