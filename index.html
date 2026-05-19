@@ -197,6 +197,7 @@ let highScore = parseInt(localStorage.getItem('plu_best') || '0');
 function showSettings() {
   buildSettingsScreen();
   showScreen('settings-screen');
+  document.body.classList.add('settings-open');
 }
 
 function buildSettingsScreen() {
@@ -331,6 +332,7 @@ function showScreen(id) {
 }
 
 function showStart() {
+  document.body.classList.remove('settings-open');
   showScreen('start-screen');
   document.getElementById('fun-fact').textContent = randomFact();
 }
