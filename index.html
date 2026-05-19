@@ -191,7 +191,7 @@ let answered = false;
 let usedIndices = [];
 let currentItem = null;
 let activePRODUCE = [];
-let allPLUs = PRODUCE.map(p => p.plu);
+let activePLUs = [];
 let highScore = parseInt(localStorage.getItem('plu_best') || '0');
 
 function showSettings() {
@@ -344,6 +344,7 @@ function startGame() {
   activePRODUCE = (saved && saved.length >= 4)
     ? PRODUCE.filter(p => saved.includes(p.plu))
     : [...PRODUCE];
+  activePLUs = activePRODUCE.map(p => p.plu);
   score = 0;
   streak = 0;
   round = 0;
@@ -406,7 +407,6 @@ function nextRound() {
   document.getElementById('produce-hint').textContent = currentItem.variety;
 
   // Build choices: 1 correct + 3 distractors
-  const activePLUs = activePRODUCE.map(p => p.plu);
   const distractors = shuffle(activePLUs.filter(p => p !== currentItem.plu)).slice(0, 3);
   const choices = shuffle([currentItem.plu, ...distractors]);
 
