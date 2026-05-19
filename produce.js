@@ -13,6 +13,7 @@ const PRODUCE_DATA = [
   // ===== APPLES =====
   {
     plu: "3507",
+    category: "Apples",
     name: "Cosmic Crisp Apple",
     variety: "Crisp, sweet-tart hybrid",
     emoji: "🍎",
@@ -23,6 +24,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "3616",
+    category: "Apples",
     name: "Envy Apple",
     variety: "Sweet, slow-browning",
     emoji: "🍎",
@@ -33,6 +35,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4131",
+    category: "Apples",
     name: "Fuji Apple",
     variety: "Sweet & crisp",
     emoji: "🍎",
@@ -43,6 +46,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4135",
+    category: "Apples",
     name: "Gala Apple",
     variety: "Mildly sweet",
     emoji: "🍎",
@@ -53,6 +57,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4017",
+    category: "Apples",
     name: "Granny Smith Apple",
     variety: "Tart green apple",
     emoji: "🍏",
@@ -63,6 +68,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "3283",
+    category: "Apples",
     name: "Honeycrisp Apple",
     variety: "Crunchy & juicy",
     emoji: "🍎",
@@ -73,6 +79,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4130",
+    category: "Apples",
     name: "Pink Lady Apple",
     variety: "Tart-sweet, late season",
     emoji: "🍎",
@@ -83,6 +90,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "3486",
+    category: "Apples",
     name: "SugarBee Apple",
     variety: "Honeycrisp descendant",
     emoji: "🍎",
@@ -95,6 +103,7 @@ const PRODUCE_DATA = [
   // ===== AVOCADOS =====
   {
     plu: "4225",
+    category: "Avocados",
     name: "Hass Avocado",
     variety: "Small-medium",
     emoji: "🥑",
@@ -105,6 +114,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "94046",
+    category: "Avocados",
     name: "Organic Hass Avocado",
     variety: "Organic",
     emoji: "🥑",
@@ -117,6 +127,7 @@ const PRODUCE_DATA = [
   // ===== BANANA =====
   {
     plu: "4011",
+    category: "Banana",
     name: "Banana",
     variety: "Yellow, conventional",
     emoji: "🍌",
@@ -129,6 +140,7 @@ const PRODUCE_DATA = [
   // ===== BERRIES =====
   {
     plu: "3329",
+    category: "Berries",
     name: "Blueberries",
     variety: "Fresh pint",
     emoji: "🫐",
@@ -139,6 +151,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4275",
+    category: "Berries",
     name: "Strawberry",
     variety: "Fresh pint",
     emoji: "🍓",
@@ -151,6 +164,7 @@ const PRODUCE_DATA = [
   // ===== CITRUS =====
   {
     plu: "4289",
+    category: "Citrus",
     name: "Grapefruit",
     variety: "Conventional",
     emoji: "🍊",
@@ -161,6 +175,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4053",
+    category: "Citrus",
     name: "Lemon",
     variety: "Conventional",
     emoji: "🍋",
@@ -171,6 +186,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4048",
+    category: "Citrus",
     name: "Lime",
     variety: "Persian lime",
     emoji: "🍋",
@@ -181,6 +197,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "3632",
+    category: "Citrus",
     name: "Sumo Mandarin",
     variety: "Easy-peel hybrid",
     emoji: "🍊",
@@ -191,6 +208,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4012",
+    category: "Citrus",
     name: "Orange",
     variety: "Conventional",
     emoji: "🍊",
@@ -201,6 +219,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "3129",
+    category: "Citrus",
     name: "Pummelo",
     variety: "Asian citrus giant",
     emoji: "🍊",
@@ -213,6 +232,7 @@ const PRODUCE_DATA = [
   // ===== DRAGON FRUIT =====
   {
     plu: "3319",
+    category: "Dragon Fruit",
     name: "Yellow Dragon Fruit",
     variety: "Selenicereus megalanthus",
     emoji: "🐉",
@@ -223,6 +243,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "3040",
+    category: "Dragon Fruit",
     name: "Snow Dragon Fruit",
     variety: "White-fleshed pitaya",
     emoji: "🐉",
@@ -235,6 +256,7 @@ const PRODUCE_DATA = [
   // ===== GRAPES =====
   {
     plu: "4022",
+    category: "Grapes",
     name: "Green Grapes",
     variety: "Thompson seedless",
     emoji: "🍇",
@@ -247,6 +269,7 @@ const PRODUCE_DATA = [
   // ===== KIWI =====
   {
     plu: "3279",
+    category: "Kiwi",
     name: "Kiwi",
     variety: "Green, conventional",
     emoji: "🥝",
@@ -259,6 +282,7 @@ const PRODUCE_DATA = [
   // ===== MANGOES =====
   {
     plu: "4959",
+    category: "Mangoes",
     name: "Mango",
     variety: "Tommy Atkins / conventional",
     emoji: "🥭",
@@ -269,6 +293,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4312",
+    category: "Mangoes",
     name: "Ataulfo Mango",
     variety: "Yellow, kidney-shaped",
     emoji: "🥭",
@@ -281,6 +306,7 @@ const PRODUCE_DATA = [
   // ===== MELONS =====
   {
     plu: "4050",
+    category: "Melons",
     name: "Cantaloupe",
     variety: "Whole conventional",
     emoji: "🍈",
@@ -291,6 +317,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4326",
+    category: "Melons",
     name: "Galia Melon",
     variety: "Israeli hybrid",
     emoji: "🍈",
@@ -301,6 +328,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4329",
+    category: "Melons",
     name: "Honeydew Melon",
     variety: "Whole conventional",
     emoji: "🍈",
@@ -311,6 +339,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "95369",
+    category: "Melons",
     name: "Organic Sugar Kiss Melon",
     variety: "Premium netted melon",
     emoji: "🍈",
@@ -321,6 +350,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4332",
+    category: "Melons",
     name: "Tuscan Cantaloupe",
     variety: "Italian-style melon",
     emoji: "🍈",
@@ -331,6 +361,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4032",
+    category: "Melons",
     name: "Watermelon (Large)",
     variety: "Seedless whole",
     emoji: "🍉",
@@ -341,6 +372,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "3421",
+    category: "Melons",
     name: "Mini Watermelon",
     variety: "Personal seedless",
     emoji: "🍉",
@@ -353,6 +385,7 @@ const PRODUCE_DATA = [
   // ===== STONE FRUIT =====
   {
     plu: "4378",
+    category: "Stone Fruit",
     name: "Yellow Nectarine",
     variety: "Conventional",
     emoji: "🍑",
@@ -363,6 +396,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4044",
+    category: "Stone Fruit",
     name: "Yellow Peach",
     variety: "Conventional",
     emoji: "🍑",
@@ -375,6 +409,7 @@ const PRODUCE_DATA = [
   // ===== PEARS =====
   {
     plu: "4408",
+    category: "Pears",
     name: "Asian Pear",
     variety: "Apple-shaped, crisp",
     emoji: "🍐",
@@ -385,6 +420,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4409",
+    category: "Pears",
     name: "Bartlett Pear",
     variety: "Yellow, conventional",
     emoji: "🍐",
@@ -395,6 +431,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4413",
+    category: "Pears",
     name: "Bosc Pear",
     variety: "Russeted brown",
     emoji: "🍐",
@@ -405,6 +442,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4416",
+    category: "Pears",
     name: "D'Anjou Pear",
     variety: "Green, all-purpose",
     emoji: "🍐",
@@ -415,6 +453,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4417",
+    category: "Pears",
     name: "Red D'Anjou Pear",
     variety: "Burgundy-skinned",
     emoji: "🍐",
@@ -425,6 +464,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4425",
+    category: "Pears",
     name: "Korean Shingo Pear",
     variety: "Large Asian pear",
     emoji: "🍐",
@@ -437,6 +477,7 @@ const PRODUCE_DATA = [
   // ===== PINEAPPLE =====
   {
     plu: "4430",
+    category: "Pineapple",
     name: "Pineapple",
     variety: "Whole conventional",
     emoji: "🍍",
@@ -449,6 +490,7 @@ const PRODUCE_DATA = [
   // ===== POMEGRANATE / PERSIMMON / PAPAYA =====
   {
     plu: "3127",
+    category: "Specialty Fruit",
     name: "Pomegranate",
     variety: "Whole conventional",
     emoji: "🍎",
@@ -459,6 +501,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4428",
+    category: "Specialty Fruit",
     name: "Persimmon",
     variety: "Fuyu / Hachiya",
     emoji: "🍅",
@@ -469,6 +512,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "3112",
+    category: "Specialty Fruit",
     name: "Papaya",
     variety: "Whole conventional",
     emoji: "🥭",
@@ -481,6 +525,7 @@ const PRODUCE_DATA = [
   // ===== TOMATOES =====
   {
     plu: "4087",
+    category: "Tomatoes",
     name: "Roma Tomato",
     variety: "Conventional",
     emoji: "🍅",
@@ -491,6 +536,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4799",
+    category: "Tomatoes",
     name: "Beefsteak Tomato",
     variety: "Large slicing tomato",
     emoji: "🍅",
@@ -503,6 +549,7 @@ const PRODUCE_DATA = [
   // ===== CRUCIFEROUS / GREENS =====
   {
     plu: "3082",
+    category: "Cruciferous & Greens",
     name: "Broccoli",
     variety: "Fresh crown",
     emoji: "🥦",
@@ -513,6 +560,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "3083",
+    category: "Cruciferous & Greens",
     name: "Brussels Sprout Stalks",
     variety: "Whole stalks",
     emoji: "🥦",
@@ -523,6 +571,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4070",
+    category: "Cruciferous & Greens",
     name: "Celery",
     variety: "Conventional stalk",
     emoji: "🥬",
@@ -535,6 +584,7 @@ const PRODUCE_DATA = [
   // ===== ROOTS / BULBS =====
   {
     plu: "4562",
+    category: "Roots & Bulbs",
     name: "Carrot",
     variety: "Loose, conventional",
     emoji: "🥕",
@@ -545,6 +595,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4608",
+    category: "Roots & Bulbs",
     name: "Garlic",
     variety: "Conventional bulb",
     emoji: "🧄",
@@ -555,6 +606,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4662",
+    category: "Roots & Bulbs",
     name: "Shallot",
     variety: "Loose bulbs",
     emoji: "🧅",
@@ -567,6 +619,7 @@ const PRODUCE_DATA = [
   // ===== ONIONS =====
   {
     plu: "4082",
+    category: "Onions",
     name: "Red Onion",
     variety: "Conventional",
     emoji: "🧅",
@@ -577,6 +630,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4166",
+    category: "Onions",
     name: "Sweet Onion",
     variety: "Vidalia / Walla Walla",
     emoji: "🧅",
@@ -587,6 +641,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4663",
+    category: "Onions",
     name: "White Onion",
     variety: "Conventional",
     emoji: "🧅",
@@ -597,6 +652,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4093",
+    category: "Onions",
     name: "Yellow Onion",
     variety: "Conventional",
     emoji: "🧅",
@@ -609,6 +665,7 @@ const PRODUCE_DATA = [
   // ===== PEPPERS =====
   {
     plu: "4065",
+    category: "Peppers",
     name: "Green Bell Pepper",
     variety: "Conventional",
     emoji: "🫑",
@@ -619,6 +676,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "3121",
+    category: "Peppers",
     name: "Orange Bell Pepper",
     variety: "Conventional",
     emoji: "🫑",
@@ -629,6 +687,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4688",
+    category: "Peppers",
     name: "Red Bell Pepper",
     variety: "Conventional",
     emoji: "🫑",
@@ -639,6 +698,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4689",
+    category: "Peppers",
     name: "Yellow Bell Pepper",
     variety: "Conventional",
     emoji: "🫑",
@@ -649,6 +709,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4693",
+    category: "Peppers",
     name: "Jalapeño",
     variety: "Singles, conventional",
     emoji: "🌶️",
@@ -661,6 +722,7 @@ const PRODUCE_DATA = [
   // ===== POTATOES =====
   {
     plu: "4727",
+    category: "Potatoes",
     name: "Gold Potato",
     variety: "Yukon Gold",
     emoji: "🥔",
@@ -671,6 +733,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4073",
+    category: "Potatoes",
     name: "Red Potato",
     variety: "Waxy, all-purpose",
     emoji: "🥔",
@@ -681,6 +744,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4072",
+    category: "Potatoes",
     name: "Russet Potato",
     variety: "Conventional",
     emoji: "🥔",
@@ -691,6 +755,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4817",
+    category: "Potatoes",
     name: "Sweet Potato",
     variety: "Orange-fleshed",
     emoji: "🍠",
@@ -701,6 +766,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "3288",
+    category: "Potatoes",
     name: "Purple Japanese Sweet Potato",
     variety: "Stokes / Murasaki",
     emoji: "🍠",
@@ -713,6 +779,7 @@ const PRODUCE_DATA = [
   // ===== SQUASH / ZUCCHINI / EGGPLANT =====
   {
     plu: "4750",
+    category: "Squash & Eggplant",
     name: "Acorn Squash",
     variety: "Winter squash",
     emoji: "🎃",
@@ -723,6 +790,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4759",
+    category: "Squash & Eggplant",
     name: "Butternut Squash",
     variety: "Winter squash",
     emoji: "🎃",
@@ -733,6 +801,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4776",
+    category: "Squash & Eggplant",
     name: "Spaghetti Squash",
     variety: "Winter squash",
     emoji: "🎃",
@@ -743,6 +812,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "94782",
+    category: "Squash & Eggplant",
     name: "Organic Yellow Squash",
     variety: "Summer squash",
     emoji: "🥒",
@@ -753,6 +823,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4081",
+    category: "Squash & Eggplant",
     name: "Eggplant",
     variety: "Globe / Italian",
     emoji: "🍆",
@@ -763,6 +834,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "94067",
+    category: "Squash & Eggplant",
     name: "Organic Zucchini",
     variety: "Green summer squash",
     emoji: "🥒",
@@ -775,6 +847,7 @@ const PRODUCE_DATA = [
   // ===== CUCUMBERS =====
   {
     plu: "4062",
+    category: "Cucumbers",
     name: "English Cucumber",
     variety: "Long, seedless",
     emoji: "🥒",
@@ -785,6 +858,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4593",
+    category: "Cucumbers",
     name: "Hothouse Cucumber",
     variety: "Greenhouse-grown, seedless",
     emoji: "🥒",
@@ -795,6 +869,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "94593",
+    category: "Cucumbers",
     name: "Organic Hothouse Cucumber",
     variety: "Greenhouse, organic",
     emoji: "🥒",
@@ -807,6 +882,7 @@ const PRODUCE_DATA = [
   // ===== ARTICHOKE / ASPARAGUS / SWEET CORN =====
   {
     plu: "4762",
+    category: "Other Vegetables",
     name: "Artichoke",
     variety: "Globe, singles",
     emoji: "🌿",
@@ -817,6 +893,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4080",
+    category: "Other Vegetables",
     name: "Asparagus",
     variety: "Bunch, conventional",
     emoji: "🌿",
@@ -827,6 +904,7 @@ const PRODUCE_DATA = [
   },
   {
     plu: "4077",
+    category: "Other Vegetables",
     name: "Sweet Corn",
     variety: "Yellow, conventional",
     emoji: "🌽",
