@@ -193,6 +193,97 @@ let currentItem = null;
 let allPLUs = PRODUCE.map(p => p.plu);
 let highScore = parseInt(localStorage.getItem('plu_best') || '0');
 
+function showSettings() {
+  buildSettingsScreen();
+  showScreen('settings-screen');
+}
+
+function buildSettingsScreen() {
+  const saved = JSON.parse(localStorage.getItem('plu_filter') || 'null');
+  const activePLUs = saved ? new Set(saved) : new Set(PRODUCE.map(p => p.plu));
+
+  const categories = {};
+  PRODUCE.forEach(p => {
+    if (!categories[p.category]) categories[p.category] = [];
+    categories[p.category].push(p);
+  });
+
+  const container = document.getElementById('settings-list');
+  container.innerHTML = '';
+
+  Object.entries(categories).forEach(([cat, items]) => {
+    const allChecked = items.every(p => activePLUs.has(p.plu));
+    const someChecked = items.some(p => activePLUs.has(p.plu));
+
+    const group = document.createElement('div');
+    group.className = 'settings-group';
+    group.innerHTML = `
+      <label class="group-header">
+        <input type="checkbox" class="group-check" ${allChecked ? 'checked' : ''}>
+        <span class="group-name">${cat}</span>
+        <span class="group-count">${items.length}</span>
+      </label>
+      <div class="group-items">
+        ${items.map(p => `
+          <label class="item-row">
+            <input type="checkbox" class="item-check" data-plu="${p.plu}" ${activePLUs.has(p.plu) ? 'checked' : ''}>
+            <span class="item-emoji">${p.emoji}</span>
+            <span class="item-name">${p.name}</span>
+            <span class="item-plu">${p.plu}</span>
+          </label>
+        `).join('')}
+      </div>
+    `;
+
+    const groupCb = group.querySelector('.group-check');
+    if (someChecked && !allChecked) groupCb.indeterminate = true;
+
+    groupCb.addEventListener('change', () => {
+      group.querySelectorAll('.item-check').forEach(ic => ic.checked = groupCb.checked);
+      groupCb.indeterminate = false;
+      onFilterChange();
+    });
+
+    group.querySelectorAll('.item-check').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const allCbs = group.querySelectorAll('.item-check');
+        const checked = [...allCbs].filter(c => c.checked).length;
+        groupCb.checked = checked === allCbs.length;
+        groupCb.indeterminate = checked > 0 && checked < allCbs.length;
+        onFilterChange();
+      });
+    });
+
+    container.appendChild(group);
+  });
+
+  updateStartGuard();
+}
+
+function onFilterChange() {
+  const plus = [...document.querySelectorAll('.item-check:checked')].map(cb => cb.dataset.plu);
+  localStorage.setItem('plu_filter', JSON.stringify(plus));
+  updateStartGuard();
+}
+
+function updateStartGuard() {
+  const saved = JSON.parse(localStorage.getItem('plu_filter') || 'null');
+  const count = saved ? saved.length : PRODUCE.length;
+  const btn = document.getElementById('start-btn');
+  const warning = document.getElementById('filter-warning');
+  btn.disabled = count < 4;
+  warning.style.display = count < 4 ? 'block' : 'none';
+}
+
+function selectAllFilter(checked) {
+  document.querySelectorAll('.item-check').forEach(cb => cb.checked = checked);
+  document.querySelectorAll('.group-check').forEach(cb => {
+    cb.checked = checked;
+    cb.indeterminate = false;
+  });
+  onFilterChange();
+}
+
 function startReview() {
   const btn = document.getElementById('pause-btn');
   btn.disabled = false;
@@ -467,6 +558,7 @@ toggle.checked = CONFIG.autoContinue;
 toggle.addEventListener('change', updateToggleLabel);
 updateToggleLabel();
 
+updateStartGuard();
 showStart();
 </script>
 </body>
