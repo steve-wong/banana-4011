@@ -187,6 +187,14 @@
       <div id="settings-list" class="settings-list"></div>
     </div>
 
+    <div class="settings-section">
+      <div class="settings-label">Leaderboard default</div>
+      <div class="lb-default-row">
+        <button class="lb-toggle-opt" id="lbt-community" onclick="setLbDefault('community')">Community</button>
+        <button class="lb-toggle-opt" id="lbt-personal" onclick="setLbDefault('personal')">Personal best</button>
+      </div>
+    </div>
+
     <button class="btn settings-done-btn" onclick="showStart()">Done</button>
   </div>
 
@@ -531,6 +539,12 @@ function enterEditMode() {
   renderCommunityBoard();
 }
 
+function setLbDefault(val) {
+  localStorage.setItem('plu_lb_default', val);
+  document.getElementById('lbt-community').classList.toggle('active', val === 'community');
+  document.getElementById('lbt-personal').classList.toggle('active', val === 'personal');
+}
+
 function endGame() {
   clearInterval(timerInterval);
   recordGame(score, correctCount, TOTAL_ROUNDS, bestStreak);
@@ -603,6 +617,9 @@ function buildSettingsScreen() {
   });
 
   updateStartGuard();
+
+  const lbDefault = localStorage.getItem('plu_lb_default') || 'community';
+  setLbDefault(lbDefault);
 }
 
 function onFilterChange() {
