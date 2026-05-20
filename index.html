@@ -11,7 +11,7 @@
 
   <!-- START SCREEN -->
   <div id="start-screen" class="screen active">
-  <button class="gear-btn" onclick="showSettings()" aria-label="Settings">⚙</button>
+  <button class="gear-btn" onclick="window.location.href='settings.html'" aria-label="Settings">⚙</button>
     <div class="sticker-wrap">
       <!-- Code 128B barcode for "4011": Start B · '4'(v20) · '0'(v16) · '1'(v17) · '1'(v17) · check(v69) · Stop -->
       <svg class="sticker-logo" viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Banana 4011 PLU sticker">
@@ -129,89 +129,12 @@
     <button id="pause-btn" class="btn secondary pause-btn" onclick="togglePause()" disabled>Pause</button>
   </div>
 
-  <!-- LEADERBOARD SCREEN -->
-  <div id="leaderboard-screen" class="screen">
-    <h1>Banana 4011</h1>
-    <p class="tagline">Game over</p>
-    <div class="lb-score" id="lb-score">0</div>
-    <div class="lb-stats" id="lb-stats"></div>
-
-    <div class="lb-tabs">
-      <button class="lb-tab" id="tab-community" onclick="switchLbTab('community')">Community</button>
-      <button class="lb-tab" id="tab-personal" onclick="switchLbTab('personal')">Personal best</button>
-    </div>
-
-    <div class="lb-table-wrap">
-      <div class="lb-table-header">
-        <span class="lb-col-rank">#</span>
-        <span class="lb-col-name">Name</span>
-        <span class="lb-col-score">Score</span>
-      </div>
-      <div id="lb-rows"></div>
-      <div class="lb-error" id="lb-error" style="display:none"></div>
-    </div>
-
-    <div id="lb-post-area" class="lb-post-area">
-      <div class="lb-post-row" id="lb-post-row">
-        <input type="text" id="lb-name-input" class="lb-name-input" placeholder="Your name" maxlength="20">
-        <button class="lb-post-btn" id="lb-post-btn" onclick="postScore()">Post score</button>
-      </div>
-      <div class="lb-skip-wrap" id="lb-skip-wrap">
-        <button class="text-btn" onclick="skipLeaderboard()">skip leaderboard</button>
-      </div>
-    </div>
-
-    <button class="btn lb-play-btn" onclick="startGame()">Play Again</button>
-    <button class="btn secondary" onclick="showStart()">Home</button>
-  </div>
-
-  <!-- SETTINGS SCREEN -->
-  <div id="settings-screen" class="screen">
-    <div class="settings-header">
-      <button class="back-btn" onclick="showStart()">← Back</button>
-      <h2 class="settings-title">Settings</h2>
-    </div>
-
-    <div class="settings-section">
-      <div class="settings-section-header">
-        <span class="settings-section-title">PLU Filter</span>
-        <div class="select-all-wrap">
-          <button class="text-btn" onclick="selectAllFilter(true)">Select All</button>
-          <span class="divider">·</span>
-          <button class="text-btn" onclick="selectAllFilter(false)">Deselect All</button>
-        </div>
-      </div>
-      <div id="filter-warning" class="filter-warning" style="display:none">
-        Select at least 4 items to play
-      </div>
-      <div id="settings-list" class="settings-list"></div>
-    </div>
-
-    <div class="settings-section">
-      <div class="settings-label">Leaderboard default</div>
-      <div class="lb-default-row">
-        <button class="lb-toggle-opt" id="lbt-community" onclick="setLbDefault('community')">Community</button>
-        <button class="lb-toggle-opt" id="lbt-personal" onclick="setLbDefault('personal')">Personal best</button>
-      </div>
-    </div>
-
-    <button class="btn settings-done-btn" onclick="showStart()">Done</button>
-  </div>
-
 </div>
 
 <script src="config.js"></script>
 <script src="produce.js"></script>
 
 <script>
-const SUPABASE_URL = 'https://gjafmixdspzbzcpcsfjm.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqYWZtaXhkc3B6YnpjcGNzZmptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyNzg1NzMsImV4cCI6MjA5NDg1NDU3M30.FsCb2VBnD5Xc2VbG4V-i3m0L0pExTLYfGyPdh3dX88U';
-const SB_HEADERS = {
-  'apikey': SUPABASE_ANON_KEY,
-  'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-  'Content-Type': 'application/json',
-};
-
 const PRODUCE = PRODUCE_DATA;
 
 const TOTAL_ROUNDS = CONFIG.totalRounds;
@@ -235,10 +158,6 @@ let activePLUs = [];
 let highScore = parseInt(localStorage.getItem('plu_best') || '0');
 let correctCount = 0;
 let currentGameEntryDate = null;
-let lbActiveTab = 'community';
-let lbPosted = false;
-let lbPlayerRank = null;
-let lbPlayerName = null;
 
 function getScoreHistory() {
   try {
@@ -265,419 +184,19 @@ function recordGame(s, correct, total, streak) {
   localStorage.setItem('plu_best', best);
 }
 
-function showLeaderboard() {
-  lbPosted = false;
-  lbPlayerRank = null;
-  lbPlayerName = null;
-  lbActiveTab = localStorage.getItem('plu_lb_default') || 'community';
-
-
-  const pct = score / (TOTAL_ROUNDS * (POINTS_CORRECT + STREAK_BONUS));
-  let grade = '';
-  if (pct >= 0.9)      grade = '🏆 Produce master!';
-  else if (pct >= 0.7) grade = '🌟 Seasoned cashier!';
-  else if (pct >= 0.5) grade = '🛒 Getting the hang of it!';
-  else if (pct >= 0.3) grade = '📦 Keep practicing!';
-  else                 grade = '🍌 Stick to bananas for now!';
-
-  document.getElementById('lb-score').textContent = score;
-  document.getElementById('lb-stats').textContent =
-    `${correctCount}/${TOTAL_ROUNDS} correct · best streak ${bestStreak} · ${grade}`;
-
-  initPostArea();
-  switchLbTab(lbActiveTab);
-
-  document.body.classList.add('lb-open');
-  showScreen('leaderboard-screen');
-}
-
-function switchLbTab(tab) {
-  lbActiveTab = tab;
-  document.getElementById('tab-community').classList.toggle('active', tab === 'community');
-  document.getElementById('tab-personal').classList.toggle('active', tab === 'personal');
-  document.getElementById('lb-post-area').style.display = tab === 'community' ? '' : 'none';
-  if (tab === 'community') renderCommunityBoard();
-  else renderPersonalBest();
-}
-
-function skipLeaderboard() {
-  document.getElementById('lb-post-area').style.display = 'none';
-}
-
-function initPostArea() {
-  lbPosted = false;
-  const nameInput = document.getElementById('lb-name-input');
-  const postBtn = document.getElementById('lb-post-btn');
-  const postRow = document.getElementById('lb-post-row');
-
-  const existing = postRow.querySelector('.lb-static-name');
-  if (existing) existing.remove();
-  nameInput.style.display = '';
-  nameInput.disabled = false;
-  nameInput.value = localStorage.getItem('plu_player_name') || '';
-  postBtn.textContent = 'Post score';
-  postBtn.disabled = false;
-  postBtn.style.display = '';
-  postBtn.onclick = postScore;
-
-  document.getElementById('lb-skip-wrap').innerHTML =
-    '<button class="text-btn" onclick="skipLeaderboard()">skip leaderboard</button>';
-  document.getElementById('lb-post-area').style.display = '';
-}
-
-const LB_ERRORS = [
-  'The leaderboard has gone bananas 🍌 — <a onclick="renderCommunityBoard()">retry</a>',
-  'Score submission got lost in the produce aisle — <a onclick="renderCommunityBoard()">try again</a>',
-];
-
-function lbErrorMsg() {
-  return LB_ERRORS[Math.floor(Math.random() * LB_ERRORS.length)];
-}
-
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
-async function renderCommunityBoard() {
-  const container = document.getElementById('lb-rows');
-  const errEl = document.getElementById('lb-error');
-  container.innerHTML = '<div class="lb-row unsubmitted" style="justify-content:center;color:#555">Loading…</div>';
-  errEl.style.display = 'none';
-
-  try {
-    const resp = await fetch(
-      `${SUPABASE_URL}/rest/v1/scores?select=name,score&order=score.desc&limit=10`,
-      { headers: SB_HEADERS }
-    );
-    if (!resp.ok) throw new Error(resp.status);
-    const data = await resp.json();
-    renderCommunityRows(data);
-  } catch {
-    container.innerHTML = '';
-    errEl.innerHTML = lbErrorMsg();
-    errEl.style.display = 'block';
-  }
-}
-
-function renderCommunityRows(rows) {
-  const container = document.getElementById('lb-rows');
-  container.innerHTML = '';
-
-  if (!rows || rows.length === 0) {
-    container.innerHTML =
-      '<div class="lb-row unsubmitted" style="justify-content:center">No scores yet — be the first!</div>';
-  } else {
-    rows.forEach((row, i) => {
-      const el = document.createElement('div');
-      el.className = 'lb-row';
-      el.innerHTML = `
-        <span class="lb-col-rank">${i + 1}</span>
-        <span class="lb-col-name">${escapeHtml(row.name)}</span>
-        <span class="lb-col-score">${parseInt(row.score, 10)}</span>
-      `;
-      container.appendChild(el);
-    });
-  }
-
-  const sep = document.createElement('div');
-  sep.className = 'lb-row sep';
-  sep.innerHTML = '<span class="lb-col-rank">…</span><span class="lb-col-name"></span><span class="lb-col-score"></span>';
-  container.appendChild(sep);
-
-  const playerRow = document.createElement('div');
-  if (lbPosted && lbPlayerRank !== null) {
-    playerRow.className = 'lb-row player';
-    playerRow.innerHTML = `
-      <span class="lb-col-rank">${lbPlayerRank}</span>
-      <span class="lb-col-name">${escapeHtml(lbPlayerName)} ← you</span>
-      <span class="lb-col-score">${score}</span>
-    `;
-  } else {
-    playerRow.className = 'lb-row player unsubmitted';
-    playerRow.innerHTML = `
-      <span class="lb-col-rank">—</span>
-      <span class="lb-col-name">— not submitted</span>
-      <span class="lb-col-score">—</span>
-    `;
-  }
-  container.appendChild(playerRow);
-}
-
-function renderPersonalBest() {
-  const history = getScoreHistory();
-  const sorted = [...history].sort((a, b) => b.score - a.score);
-  const top10 = sorted.slice(0, 10);
-  const currentIdx = sorted.findIndex(e => e.date === currentGameEntryDate);
-  const container = document.getElementById('lb-rows');
-  container.innerHTML = '';
-
-  if (sorted.length === 0) {
-    container.innerHTML = '<div class="lb-row unsubmitted" style="justify-content:center">No games yet</div>';
-    return;
-  }
-
-  const epochIso = new Date(0).toISOString();
-
-  top10.forEach((entry, i) => {
-    const isCurrent = entry.date === currentGameEntryDate;
-    const label = isCurrent
-      ? 'You (now)'
-      : entry.date === epochIso
-        ? 'Previous best'
-        : new Date(entry.date).toLocaleDateString();
-    const row = document.createElement('div');
-    row.className = 'lb-row' + (isCurrent ? ' player' : '');
-    row.innerHTML = `
-      <span class="lb-col-rank">${i + 1}</span>
-      <span class="lb-col-name">${label}</span>
-      <span class="lb-col-score">${parseInt(entry.score, 10)}</span>
-    `;
-    container.appendChild(row);
-  });
-
-  if (currentIdx >= 10) {
-    const sep = document.createElement('div');
-    sep.className = 'lb-row sep';
-    sep.innerHTML = '<span class="lb-col-rank">…</span><span class="lb-col-name"></span><span class="lb-col-score"></span>';
-    container.appendChild(sep);
-
-    const entry = sorted[currentIdx];
-    const row = document.createElement('div');
-    row.className = 'lb-row player';
-    row.innerHTML = `
-      <span class="lb-col-rank">${currentIdx + 1}</span>
-      <span class="lb-col-name">You (now)</span>
-      <span class="lb-col-score">${parseInt(entry.score, 10)}</span>
-    `;
-    container.appendChild(row);
-  }
-}
-
-async function postScore() {
-  const nameInput = document.getElementById('lb-name-input');
-  const postBtn = document.getElementById('lb-post-btn');
-  const errEl = document.getElementById('lb-error');
-  const name = nameInput.value.trim();
-  if (!name) { nameInput.focus(); return; }
-
-  localStorage.setItem('plu_player_name', name);
-  postBtn.disabled = true;
-  postBtn.textContent = 'Posting…';
-  errEl.style.display = 'none';
-
-  try {
-    const insertResp = await fetch(`${SUPABASE_URL}/rest/v1/scores`, {
-      method: 'POST',
-      headers: { ...SB_HEADERS, 'Prefer': 'return=minimal' },
-      body: JSON.stringify({ name, score, correct: correctCount, total: TOTAL_ROUNDS, streak: bestStreak }),
-    });
-    if (!insertResp.ok) throw new Error(insertResp.status);
-
-    const rankResp = await fetch(
-      `${SUPABASE_URL}/rest/v1/scores?select=*&score=gt.${score}`,
-      { method: 'HEAD', headers: { ...SB_HEADERS, 'Prefer': 'count=exact' } }
-    );
-    if (!rankResp.ok) throw new Error(rankResp.status);
-    const range = rankResp.headers.get('content-range') || '0-0/0';
-    const count = parseInt(range.split('/')[1], 10) || 0;
-
-    lbPlayerName = name;
-    lbPlayerRank = count + 1;
-    lbPosted = true;
-
-    showPostConfirmed(name);
-    await renderCommunityBoard();
-
-  } catch {
-    postBtn.disabled = false;
-    postBtn.textContent = 'Post score';
-    errEl.innerHTML = lbErrorMsg();
-    errEl.style.display = 'block';
-  }
-}
-
-function showPostConfirmed(name) {
-  const postRow = document.getElementById('lb-post-row');
-  const nameInput = document.getElementById('lb-name-input');
-  const postBtn = document.getElementById('lb-post-btn');
-
-  nameInput.style.display = 'none';
-  postBtn.textContent = '✓ Posted';
-
-  const staticName = document.createElement('span');
-  staticName.className = 'lb-static-name';
-  staticName.textContent = name;
-  postRow.insertBefore(staticName, nameInput);
-
-  document.getElementById('lb-skip-wrap').innerHTML =
-    '<button class="text-btn" onclick="enterEditMode()">edit name</button>';
-
-  setTimeout(() => { postBtn.style.display = 'none'; }, 1500);
-}
-
-function enterEditMode() {
-  const postRow = document.getElementById('lb-post-row');
-  const nameInput = document.getElementById('lb-name-input');
-  const postBtn = document.getElementById('lb-post-btn');
-  const existing = postRow.querySelector('.lb-static-name');
-  if (existing) existing.remove();
-
-  nameInput.style.display = '';
-  nameInput.disabled = false;
-  postBtn.style.display = '';
-  postBtn.textContent = 'Post score';
-  postBtn.disabled = false;
-  postBtn.onclick = postScore;
-
-  lbPosted = false;
-  lbPlayerRank = null;
-  lbPlayerName = null;
-
-  document.getElementById('lb-skip-wrap').innerHTML =
-    '<button class="text-btn" onclick="skipLeaderboard()">skip leaderboard</button>';
-
-  nameInput.focus();
-  renderCommunityBoard();
-}
-
-function setLbDefault(val) {
-  localStorage.setItem('plu_lb_default', val);
-  document.getElementById('lbt-community').classList.toggle('active', val === 'community');
-  document.getElementById('lbt-personal').classList.toggle('active', val === 'personal');
-}
-
 function endGame() {
   clearInterval(timerInterval);
   recordGame(score, correctCount, TOTAL_ROUNDS, bestStreak);
-  showLeaderboard();
-}
-
-function showSettings() {
-  buildSettingsScreen();
-  showScreen('settings-screen');
-  document.body.classList.add('settings-open');
-}
-
-function buildSettingsScreen() {
-  const saved = JSON.parse(localStorage.getItem('plu_filter') || 'null');
-  const activePLUSet = saved ? new Set(saved) : new Set(PRODUCE.map(p => p.plu));
-
-  const categories = {};
-  PRODUCE.forEach(p => {
-    if (!categories[p.category]) categories[p.category] = [];
-    categories[p.category].push(p);
-  });
-
-  const container = document.getElementById('settings-list');
-  container.innerHTML = '';
-
-  Object.entries(categories).forEach(([cat, items]) => {
-    const allChecked = items.every(p => activePLUSet.has(p.plu));
-    const someChecked = items.some(p => activePLUSet.has(p.plu));
-
-    const group = document.createElement('div');
-    group.className = 'settings-group';
-    group.innerHTML = `
-      <label class="group-header">
-        <input type="checkbox" class="group-check" ${allChecked ? 'checked' : ''}>
-        <span class="group-name">${cat}</span>
-        <span class="group-count">${items.length}</span>
-      </label>
-      <div class="group-items">
-        ${items.map(p => `
-          <label class="item-row">
-            <input type="checkbox" class="item-check" data-plu="${p.plu}" ${activePLUSet.has(p.plu) ? 'checked' : ''}>
-            <span class="item-emoji">${p.emoji}</span>
-            <span class="item-name">${p.name}</span>
-            <span class="item-plu">${p.plu}</span>
-          </label>
-        `).join('')}
-      </div>
-    `;
-
-    const groupCb = group.querySelector('.group-check');
-    if (someChecked && !allChecked) groupCb.indeterminate = true;
-
-    groupCb.addEventListener('change', () => {
-      group.querySelectorAll('.item-check').forEach(ic => ic.checked = groupCb.checked);
-      groupCb.indeterminate = false;
-      onFilterChange();
-    });
-
-    group.querySelectorAll('.item-check').forEach(cb => {
-      cb.addEventListener('change', () => {
-        const allCbs = group.querySelectorAll('.item-check');
-        const checked = [...allCbs].filter(c => c.checked).length;
-        groupCb.checked = checked === allCbs.length;
-        groupCb.indeterminate = checked > 0 && checked < allCbs.length;
-        onFilterChange();
-      });
-    });
-
-    container.appendChild(group);
-  });
-
-  updateStartGuard();
-
-  const lbDefault = localStorage.getItem('plu_lb_default') || 'community';
-  setLbDefault(lbDefault);
-}
-
-function onFilterChange() {
-  const plus = [...document.querySelectorAll('.item-check:checked')].map(cb => cb.dataset.plu);
-  localStorage.setItem('plu_filter', JSON.stringify(plus));
-  updateStartGuard();
+  sessionStorage.setItem('plu_current_game', JSON.stringify({
+    score, correctCount, bestStreak, date: currentGameEntryDate
+  }));
+  window.location.href = 'leaderboard.html';
 }
 
 function updateStartGuard() {
-  const itemChecks = document.querySelectorAll('.item-check');
-  const count = itemChecks.length > 0
-    ? [...itemChecks].filter(c => c.checked).length
-    : (() => { const s = JSON.parse(localStorage.getItem('plu_filter') || 'null'); return s ? s.length : PRODUCE.length; })();
-  const btn = document.getElementById('start-btn');
-  const warning = document.getElementById('filter-warning');
-  btn.disabled = count < 4;
-  warning.style.display = count < 4 ? 'block' : 'none';
-}
-
-function selectAllFilter(checked) {
-  document.querySelectorAll('.item-check').forEach(cb => cb.checked = checked);
-  document.querySelectorAll('.group-check').forEach(cb => {
-    cb.checked = checked;
-    cb.indeterminate = false;
-  });
-  onFilterChange();
-}
-
-function startReview() {
-  const btn = document.getElementById('pause-btn');
-  btn.disabled = false;
-  btn.classList.remove('continue');
-  if (autoContinue) {
-    btn.textContent = 'Pause';
-    reviewTimeout = setTimeout(() => {
-      btn.disabled = true;
-      nextRound();
-    }, CONFIG.reviewMs);
-  } else {
-    btn.textContent = 'Continue';
-    btn.classList.add('continue');
-    reviewTimeout = null;
-  }
-}
-
-function togglePause() {
-  const btn = document.getElementById('pause-btn');
-  if (reviewTimeout) {
-    clearTimeout(reviewTimeout);
-    reviewTimeout = null;
-    btn.textContent = 'Continue';
-    btn.classList.add('continue');
-  } else {
-    nextRound();
-  }
+  const s = JSON.parse(localStorage.getItem('plu_filter') || 'null');
+  const count = s ? s.length : PRODUCE.length;
+  document.getElementById('start-btn').disabled = count < 4;
 }
 
 function shuffle(arr) {
@@ -695,8 +214,6 @@ function showScreen(id) {
 }
 
 function showStart() {
-  document.body.classList.remove('settings-open');
-  document.body.classList.remove('lb-open');
   showScreen('start-screen');
   document.getElementById('fun-fact').textContent = randomFact();
 }
@@ -713,7 +230,6 @@ function startGame() {
     ? PRODUCE.filter(p => saved.includes(p.plu))
     : [...PRODUCE];
   activePLUs = activePRODUCE.map(p => p.plu);
-  document.body.classList.remove('lb-open');
   score = 0;
   streak = 0;
   correctCount = 0;
@@ -890,6 +406,35 @@ function handleTimeout() {
   document.getElementById('tip-memory').textContent = currentItem.memoryTip;
   document.getElementById('tip-panel').classList.add('visible');
   startReview();
+}
+
+function startReview() {
+  const btn = document.getElementById('pause-btn');
+  btn.disabled = false;
+  btn.classList.remove('continue');
+  if (autoContinue) {
+    btn.textContent = 'Pause';
+    reviewTimeout = setTimeout(() => {
+      btn.disabled = true;
+      nextRound();
+    }, CONFIG.reviewMs);
+  } else {
+    btn.textContent = 'Continue';
+    btn.classList.add('continue');
+    reviewTimeout = null;
+  }
+}
+
+function togglePause() {
+  const btn = document.getElementById('pause-btn');
+  if (reviewTimeout) {
+    clearTimeout(reviewTimeout);
+    reviewTimeout = null;
+    btn.textContent = 'Continue';
+    btn.classList.add('continue');
+  } else {
+    nextRound();
+  }
 }
 
 // Init

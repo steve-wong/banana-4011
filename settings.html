@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings — Banana 4011</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="settings-open">
+<div id="app">
+
+  <div id="settings-screen" class="screen active">
+    <div class="settings-header">
+      <button class="back-btn" onclick="window.location.href='index.html'">← Back</button>
+      <h2 class="settings-title">Settings</h2>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-section-header">
+        <span class="settings-section-title">PLU Filter</span>
+        <div class="select-all-wrap">
+          <button class="text-btn" onclick="selectAllFilter(true)">Select All</button>
+          <span class="divider">·</span>
+          <button class="text-btn" onclick="selectAllFilter(false)">Deselect All</button>
+        </div>
+      </div>
+      <div id="filter-warning" class="filter-warning" style="display:none">
+        Select at least 4 items to play
+      </div>
+      <div id="settings-list" class="settings-list"></div>
+    </div>
+
+    <div class="settings-section">
+      <div class="settings-label">Leaderboard default</div>
+      <div class="lb-default-row">
+        <button class="lb-toggle-opt" id="lbt-community" onclick="setLbDefault('community')">Community</button>
+        <button class="lb-toggle-opt" id="lbt-personal" onclick="setLbDefault('personal')">Personal best</button>
+      </div>
+    </div>
+
+    <button class="btn settings-done-btn" onclick="window.location.href='index.html'">Done</button>
+  </div>
+
+</div>
+
+<script src="config.js"></script>
+<script src="produce.js"></script>
+
+<script>
+const PRODUCE = PRODUCE_DATA;
+
+function buildSettingsScreen() {
+  const saved = JSON.parse(localStorage.getItem('plu_filter') || 'null');
+  const activePLUSet = saved ? new Set(saved) : new Set(PRODUCE.map(p => p.plu));
+
+  const categories = {};
+  PRODUCE.forEach(p => {
+    if (!categories[p.category]) categories[p.category] = [];
+    categories[p.category].push(p);
+  });
+
+  const container = document.getElementById('settings-list');
+  container.innerHTML = '';
+
+  Object.entries(categories).forEach(([cat, items]) => {
+    const allChecked = items.every(p => activePLUSet.has(p.plu));
+    const someChecked = items.some(p => activePLUSet.has(p.plu));
+
+    const group = document.createElement('div');
+    group.className = 'settings-group';
+    group.innerHTML = `
+      <label class="group-header">
+        <input type="checkbox" class="group-check" ${allChecked ? 'checked' : ''}>
+        <span class="group-name">${cat}</span>
+        <span class="group-count">${items.length}</span>
+      </label>
+      <div class="group-items">
+        ${items.map(p => `
+          <label class="item-row">
+            <input type="checkbox" class="item-check" data-plu="${p.plu}" ${activePLUSet.has(p.plu) ? 'checked' : ''}>
+            <span class="item-emoji">${p.emoji}</span>
+            <span class="item-name">${p.name}</span>
+            <span class="item-plu">${p.plu}</span>
+          </label>
+        `).join('')}
+      </div>
+    `;
+
+    const groupCb = group.querySelector('.group-check');
+    if (someChecked && !allChecked) groupCb.indeterminate = true;
+
+    groupCb.addEventListener('change', () => {
+      group.querySelectorAll('.item-check').forEach(ic => ic.checked = groupCb.checked);
+      groupCb.indeterminate = false;
+      onFilterChange();
+    });
+
+    group.querySelectorAll('.item-check').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const allCbs = group.querySelectorAll('.item-check');
+        const checked = [...allCbs].filter(c => c.checked).length;
+        groupCb.checked = checked === allCbs.length;
+        groupCb.indeterminate = checked > 0 && checked < allCbs.length;
+        onFilterChange();
+      });
+    });
+
+    container.appendChild(group);
+  });
+
+  updateStartGuard();
+
+  const lbDefault = localStorage.getItem('plu_lb_default') || 'community';
+  setLbDefault(lbDefault);
+}
+
+function onFilterChange() {
+  const plus = [...document.querySelectorAll('.item-check:checked')].map(cb => cb.dataset.plu);
+  localStorage.setItem('plu_filter', JSON.stringify(plus));
+  updateStartGuard();
+}
+
+function updateStartGuard() {
+  const itemChecks = document.querySelectorAll('.item-check');
+  const count = itemChecks.length > 0
+    ? [...itemChecks].filter(c => c.checked).length
+    : (() => { const s = JSON.parse(localStorage.getItem('plu_filter') || 'null'); return s ? s.length : PRODUCE.length; })();
+  document.getElementById('filter-warning').style.display = count < 4 ? 'block' : 'none';
+}
+
+function selectAllFilter(checked) {
+  document.querySelectorAll('.item-check').forEach(cb => cb.checked = checked);
+  document.querySelectorAll('.group-check').forEach(cb => {
+    cb.checked = checked;
+    cb.indeterminate = false;
+  });
+  onFilterChange();
+}
+
+function setLbDefault(val) {
+  localStorage.setItem('plu_lb_default', val);
+  document.getElementById('lbt-community').classList.toggle('active', val === 'community');
+  document.getElementById('lbt-personal').classList.toggle('active', val === 'personal');
+}
+
+// Init
+buildSettingsScreen();
+</script>
+</body>
+</html>
