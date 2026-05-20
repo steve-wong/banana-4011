@@ -217,6 +217,114 @@ let currentItem = null;
 let activePRODUCE = [];
 let activePLUs = [];
 let highScore = parseInt(localStorage.getItem('plu_best') || '0');
+let correctCount = 0;
+let currentGameEntryDate = null;
+let lbActiveTab = 'community';
+let lbPosted = false;
+let lbPlayerRank = null;
+let lbPlayerName = null;
+
+function getScoreHistory() {
+  const raw = localStorage.getItem('plu_score_history');
+  if (raw) return JSON.parse(raw);
+  const best = parseInt(localStorage.getItem('plu_best') || '0');
+  if (best > 0) return [{ score: best, correct: null, total: null, streak: null, date: new Date(0).toISOString() }];
+  return [];
+}
+
+function saveScoreHistory(history) {
+  localStorage.setItem('plu_score_history', JSON.stringify(history));
+}
+
+function recordGame(s, correct, total, streak) {
+  const history = getScoreHistory();
+  const date = new Date().toISOString();
+  currentGameEntryDate = date;
+  history.push({ score: s, correct, total, streak, date });
+  if (history.length > 50) history.splice(0, history.length - 50);
+  saveScoreHistory(history);
+  const best = history.reduce((m, e) => Math.max(m, e.score), 0);
+  localStorage.setItem('plu_best', best);
+}
+
+function showLeaderboard() {
+  lbPosted = false;
+  lbPlayerRank = null;
+  lbPlayerName = null;
+  lbActiveTab = localStorage.getItem('plu_lb_default') || 'community';
+
+  recordGame(score, correctCount, TOTAL_ROUNDS, bestStreak);
+
+  const pct = score / (TOTAL_ROUNDS * POINTS_CORRECT);
+  let grade = '';
+  if (pct >= 0.9)      grade = '🏆 Produce master!';
+  else if (pct >= 0.7) grade = '🌟 Seasoned cashier!';
+  else if (pct >= 0.5) grade = '🛒 Getting the hang of it!';
+  else if (pct >= 0.3) grade = '📦 Keep practicing!';
+  else                 grade = '🍌 Stick to bananas for now!';
+
+  document.getElementById('lb-score').textContent = score;
+  document.getElementById('lb-stats').textContent =
+    `${correctCount}/${TOTAL_ROUNDS} correct · best streak ${bestStreak} · ${grade}`;
+
+  initPostArea();
+  switchLbTab(lbActiveTab);
+
+  document.body.classList.add('lb-open');
+  showScreen('leaderboard-screen');
+}
+
+function switchLbTab(tab) {
+  lbActiveTab = tab;
+  document.getElementById('tab-community').classList.toggle('active', tab === 'community');
+  document.getElementById('tab-personal').classList.toggle('active', tab === 'personal');
+  document.getElementById('lb-post-area').style.display = tab === 'community' ? '' : 'none';
+  if (tab === 'community') renderCommunityBoard();
+  else renderPersonalBest();
+}
+
+function skipLeaderboard() {
+  document.getElementById('lb-post-area').style.display = 'none';
+}
+
+function initPostArea() {
+  lbPosted = false;
+  const nameInput = document.getElementById('lb-name-input');
+  const postBtn = document.getElementById('lb-post-btn');
+  const postRow = document.getElementById('lb-post-row');
+
+  const existing = postRow.querySelector('.lb-static-name');
+  if (existing) existing.remove();
+  nameInput.style.display = '';
+  nameInput.disabled = false;
+  nameInput.value = localStorage.getItem('plu_player_name') || '';
+  postBtn.textContent = 'Post score';
+  postBtn.disabled = false;
+  postBtn.style.display = '';
+  postBtn.onclick = postScore;
+
+  document.getElementById('lb-skip-wrap').innerHTML =
+    '<button class="text-btn" onclick="skipLeaderboard()">skip leaderboard</button>';
+  document.getElementById('lb-post-area').style.display = '';
+}
+
+// Stubs — implemented in Tasks 5 and 6
+function renderCommunityBoard() {
+  document.getElementById('lb-rows').innerHTML =
+    '<div class="lb-row unsubmitted" style="justify-content:center">Community leaderboard not yet configured</div>';
+}
+
+function renderPersonalBest() {
+  document.getElementById('lb-rows').innerHTML =
+    '<div class="lb-row unsubmitted" style="justify-content:center">Loading…</div>';
+}
+
+function postScore() {}
+
+function endGame() {
+  clearInterval(timerInterval);
+  showLeaderboard();
+}
 
 function showSettings() {
   buildSettingsScreen();
@@ -357,6 +465,7 @@ function showScreen(id) {
 
 function showStart() {
   document.body.classList.remove('settings-open');
+  document.body.classList.remove('lb-open');
   showScreen('start-screen');
   document.getElementById('fun-fact').textContent = randomFact();
 }
@@ -373,8 +482,10 @@ function startGame() {
     ? PRODUCE.filter(p => saved.includes(p.plu))
     : [...PRODUCE];
   activePLUs = activePRODUCE.map(p => p.plu);
+  document.body.classList.remove('lb-open');
   score = 0;
   streak = 0;
+  correctCount = 0;
   round = 0;
   usedIndices = [];
   updateScorebar();
@@ -494,6 +605,7 @@ function handleAnswer(plu, btn) {
     const bonus = streak >= CONFIG.streakThreshold - 1 ? STREAK_BONUS : 0;
     const pts = POINTS_CORRECT + bonus;
     score += pts;
+    correctCount++;
     streak++;
     card.classList.add('correct');
     btn.classList.add('correct-ans');
@@ -547,33 +659,6 @@ function handleTimeout() {
   document.getElementById('tip-memory').textContent = currentItem.memoryTip;
   document.getElementById('tip-panel').classList.add('visible');
   startReview();
-}
-
-function endGame() {
-  clearInterval(timerInterval);
-
-  const prev = parseInt(localStorage.getItem('plu_best') || '0');
-  const isNew = score > prev;
-  if (isNew) localStorage.setItem('plu_best', score);
-
-  document.getElementById('end-score').textContent = score;
-
-  const maxScore = TOTAL_ROUNDS * (POINTS_CORRECT + STREAK_BONUS);
-  let grade = '';
-  const pct = score / (TOTAL_ROUNDS * POINTS_CORRECT);
-  if (pct >= 0.9) grade = '🏆 Produce master!';
-  else if (pct >= 0.7) grade = '🌟 Seasoned cashier!';
-  else if (pct >= 0.5) grade = '🛒 Getting the hang of it!';
-  else if (pct >= 0.3) grade = '📦 Keep practicing!';
-  else grade = '🍌 Stick to bananas for now!';
-
-  const detail = isNew
-    ? `New high score! ${grade}`
-    : `Best: ${prev} pts · ${grade}`;
-  document.getElementById('end-detail').textContent = detail;
-  document.getElementById('fun-fact-end').textContent = randomFact();
-
-  showScreen('end-screen');
 }
 
 // Init
