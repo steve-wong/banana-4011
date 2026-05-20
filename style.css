@@ -867,7 +867,7 @@ body.lb-open {
   padding: 9px 0;
 }
 
-.lb-play-btn { width: 100%; }
+.lb-play-btn { width: 100%; margin-bottom: 10px; }
 
 /* Leaderboard settings toggle */
 .lb-default-row {
