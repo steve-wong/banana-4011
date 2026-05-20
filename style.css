@@ -900,6 +900,7 @@ body.lb-open {
 }
 
 .lb-toggle-opt {
+  flex: 1;
   padding: 5px 12px;
   background: none;
   border: none;
@@ -907,6 +908,7 @@ body.lb-open {
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
+  text-align: center;
   transition: background 0.15s, color 0.15s;
 }
 
