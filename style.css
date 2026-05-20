@@ -561,6 +561,15 @@ input[type=range]::-moz-range-thumb {
   letter-spacing: 1px;
 }
 
+.settings-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
 .select-all-wrap {
   display: flex;
   align-items: center;
