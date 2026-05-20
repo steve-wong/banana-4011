@@ -444,7 +444,92 @@ function renderPersonalBest() {
   }
 }
 
-function postScore() {}
+async function postScore() {
+  const nameInput = document.getElementById('lb-name-input');
+  const postBtn = document.getElementById('lb-post-btn');
+  const errEl = document.getElementById('lb-error');
+  const name = nameInput.value.trim();
+  if (!name) { nameInput.focus(); return; }
+
+  localStorage.setItem('plu_player_name', name);
+  postBtn.disabled = true;
+  postBtn.textContent = 'Posting…';
+  errEl.style.display = 'none';
+
+  try {
+    const { error: insertErr } = await sbClient.from('scores').insert({
+      name,
+      score,
+      correct: correctCount,
+      total: TOTAL_ROUNDS,
+      streak: bestStreak,
+    });
+    if (insertErr) throw insertErr;
+
+    const { count, error: rankErr } = await sbClient
+      .from('scores')
+      .select('*', { count: 'exact', head: true })
+      .gt('score', score);
+    if (rankErr) throw rankErr;
+
+    lbPlayerName = name;
+    lbPlayerRank = (count || 0) + 1;
+    lbPosted = true;
+
+    showPostConfirmed(name);
+    await renderCommunityBoard();
+
+  } catch {
+    postBtn.disabled = false;
+    postBtn.textContent = 'Post score';
+    errEl.innerHTML = lbErrorMsg();
+    errEl.style.display = 'block';
+  }
+}
+
+function showPostConfirmed(name) {
+  const postRow = document.getElementById('lb-post-row');
+  const nameInput = document.getElementById('lb-name-input');
+  const postBtn = document.getElementById('lb-post-btn');
+
+  nameInput.style.display = 'none';
+  postBtn.textContent = '✓ Posted';
+
+  const staticName = document.createElement('span');
+  staticName.className = 'lb-static-name';
+  staticName.textContent = name;
+  postRow.insertBefore(staticName, nameInput);
+
+  document.getElementById('lb-skip-wrap').innerHTML =
+    '<button class="text-btn" onclick="enterEditMode()">edit name</button>';
+
+  setTimeout(() => { postBtn.style.display = 'none'; }, 1500);
+}
+
+function enterEditMode() {
+  const postRow = document.getElementById('lb-post-row');
+  const nameInput = document.getElementById('lb-name-input');
+  const postBtn = document.getElementById('lb-post-btn');
+  const existing = postRow.querySelector('.lb-static-name');
+  if (existing) existing.remove();
+
+  nameInput.style.display = '';
+  nameInput.disabled = false;
+  postBtn.style.display = '';
+  postBtn.textContent = 'Post score';
+  postBtn.disabled = false;
+  postBtn.onclick = postScore;
+
+  lbPosted = false;
+  lbPlayerRank = null;
+  lbPlayerName = null;
+
+  document.getElementById('lb-skip-wrap').innerHTML =
+    '<button class="text-btn" onclick="skipLeaderboard()">skip leaderboard</button>';
+
+  nameInput.focus();
+  renderCommunityBoard();
+}
 
 function endGame() {
   clearInterval(timerInterval);
