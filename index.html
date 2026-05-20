@@ -129,16 +129,40 @@
     <button id="pause-btn" class="btn secondary pause-btn" onclick="togglePause()" disabled>Pause</button>
   </div>
 
-  <!-- END SCREEN -->
-  <div id="end-screen" class="screen">
+  <!-- LEADERBOARD SCREEN -->
+  <div id="leaderboard-screen" class="screen">
     <h1>Banana 4011</h1>
     <p class="tagline">Game over</p>
-    <p class="end-label">Your score</p>
-    <div class="end-score" id="end-score">0</div>
-    <div class="end-detail" id="end-detail"></div>
-    <button class="btn" onclick="startGame()">Play Again</button>
-    <button class="btn secondary" onclick="showStart()">Home</button>
-    <p id="fun-fact-end" style="font-size:0.75rem;color:#555;font-style:italic;margin-top:14px;min-height:18px;"></p>
+    <div class="lb-score" id="lb-score">0</div>
+    <div class="lb-stats" id="lb-stats"></div>
+
+    <div class="lb-tabs">
+      <button class="lb-tab" id="tab-community" onclick="switchLbTab('community')">Community</button>
+      <button class="lb-tab" id="tab-personal" onclick="switchLbTab('personal')">Personal best</button>
+    </div>
+
+    <div class="lb-table-wrap">
+      <div class="lb-table-header">
+        <span class="lb-col-rank">#</span>
+        <span class="lb-col-name">Name</span>
+        <span class="lb-col-score">Score</span>
+      </div>
+      <div id="lb-rows"></div>
+      <div class="lb-error" id="lb-error" style="display:none"></div>
+    </div>
+
+    <div id="lb-post-area" class="lb-post-area">
+      <div class="lb-post-row" id="lb-post-row">
+        <input type="text" id="lb-name-input" class="lb-name-input" placeholder="Your name" maxlength="20">
+        <button class="lb-post-btn" id="lb-post-btn" onclick="postScore()">Post score</button>
+        <button class="btn secondary lb-home-btn" onclick="showStart()">Home</button>
+      </div>
+      <div class="lb-skip-wrap" id="lb-skip-wrap">
+        <button class="text-btn" onclick="skipLeaderboard()">skip leaderboard</button>
+      </div>
+    </div>
+
+    <button class="btn lb-play-btn" onclick="startGame()">Play Again</button>
   </div>
 
   <!-- SETTINGS SCREEN -->
