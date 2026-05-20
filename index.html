@@ -200,14 +200,17 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="produce.js"></script>
 
 <script>
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const SUPABASE_URL = 'https://gjafmixdspzbzcpcsfjm.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqYWZtaXhkc3B6YnpjcGNzZmptIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkyNzg1NzMsImV4cCI6MjA5NDg1NDU3M30.FsCb2VBnD5Xc2VbG4V-i3m0L0pExTLYfGyPdh3dX88U';
+const SB_HEADERS = {
+  'apikey': SUPABASE_ANON_KEY,
+  'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+  'Content-Type': 'application/json',
+};
 
 const PRODUCE = PRODUCE_DATA;
 
@@ -344,12 +347,12 @@ async function renderCommunityBoard() {
   errEl.style.display = 'none';
 
   try {
-    const { data, error } = await sbClient
-      .from('scores')
-      .select('name, score')
-      .order('score', { ascending: false })
-      .limit(10);
-    if (error) throw error;
+    const resp = await fetch(
+      `${SUPABASE_URL}/rest/v1/scores?select=name,score&order=score.desc&limit=10`,
+      { headers: SB_HEADERS }
+    );
+    if (!resp.ok) throw new Error(resp.status);
+    const data = await resp.json();
     renderCommunityRows(data);
   } catch {
     container.innerHTML = '';
@@ -465,23 +468,23 @@ async function postScore() {
   errEl.style.display = 'none';
 
   try {
-    const { error: insertErr } = await sbClient.from('scores').insert({
-      name,
-      score,
-      correct: correctCount,
-      total: TOTAL_ROUNDS,
-      streak: bestStreak,
+    const insertResp = await fetch(`${SUPABASE_URL}/rest/v1/scores`, {
+      method: 'POST',
+      headers: { ...SB_HEADERS, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ name, score, correct: correctCount, total: TOTAL_ROUNDS, streak: bestStreak }),
     });
-    if (insertErr) throw insertErr;
+    if (!insertResp.ok) throw new Error(insertResp.status);
 
-    const { count, error: rankErr } = await sbClient
-      .from('scores')
-      .select('*', { count: 'exact', head: true })
-      .gt('score', score);
-    if (rankErr) throw rankErr;
+    const rankResp = await fetch(
+      `${SUPABASE_URL}/rest/v1/scores?select=*&score=gt.${score}`,
+      { method: 'HEAD', headers: { ...SB_HEADERS, 'Prefer': 'count=exact' } }
+    );
+    if (!rankResp.ok) throw new Error(rankResp.status);
+    const range = rankResp.headers.get('content-range') || '0-0/0';
+    const count = parseInt(range.split('/')[1], 10) || 0;
 
     lbPlayerName = name;
-    lbPlayerRank = (count || 0) + 1;
+    lbPlayerRank = count + 1;
     lbPosted = true;
 
     showPostConfirmed(name);
