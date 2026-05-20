@@ -328,11 +328,13 @@ function renderPersonalBest() {
     return;
   }
 
+  const epochIso = new Date(0).toISOString();
+
   top10.forEach((entry, i) => {
     const isCurrent = entry.date === currentGameEntryDate;
     const label = isCurrent
       ? 'You (now)'
-      : entry.date === new Date(0).toISOString()
+      : entry.date === epochIso
         ? 'Previous best'
         : new Date(entry.date).toLocaleDateString();
     const row = document.createElement('div');
@@ -340,7 +342,7 @@ function renderPersonalBest() {
     row.innerHTML = `
       <span class="lb-col-rank">${i + 1}</span>
       <span class="lb-col-name">${label}</span>
-      <span class="lb-col-score">${entry.score}</span>
+      <span class="lb-col-score">${parseInt(entry.score, 10)}</span>
     `;
     container.appendChild(row);
   });
@@ -357,7 +359,7 @@ function renderPersonalBest() {
     row.innerHTML = `
       <span class="lb-col-rank">${currentIdx + 1}</span>
       <span class="lb-col-name">You (now)</span>
-      <span class="lb-col-score">${entry.score}</span>
+      <span class="lb-col-score">${parseInt(entry.score, 10)}</span>
     `;
     container.appendChild(row);
   }
