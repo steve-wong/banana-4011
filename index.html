@@ -192,10 +192,15 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script src="produce.js"></script>
 
 <script>
+const SUPABASE_URL = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
 const PRODUCE = PRODUCE_DATA;
 
 const TOTAL_ROUNDS = CONFIG.totalRounds;
@@ -309,10 +314,84 @@ function initPostArea() {
   document.getElementById('lb-post-area').style.display = '';
 }
 
-// Stubs — implemented in Tasks 5 and 6
-function renderCommunityBoard() {
-  document.getElementById('lb-rows').innerHTML =
-    '<div class="lb-row unsubmitted" style="justify-content:center">Community leaderboard not yet configured</div>';
+const LB_ERRORS = [
+  'The leaderboard has gone bananas 🍌 — <a onclick="renderCommunityBoard()">retry</a>',
+  'Score submission got lost in the produce aisle — <a onclick="renderCommunityBoard()">try again</a>',
+];
+
+function lbErrorMsg() {
+  return LB_ERRORS[Math.floor(Math.random() * LB_ERRORS.length)];
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+async function renderCommunityBoard() {
+  const container = document.getElementById('lb-rows');
+  const errEl = document.getElementById('lb-error');
+  container.innerHTML = '<div class="lb-row unsubmitted" style="justify-content:center;color:#555">Loading…</div>';
+  errEl.style.display = 'none';
+
+  try {
+    const { data, error } = await sbClient
+      .from('scores')
+      .select('name, score')
+      .order('score', { ascending: false })
+      .limit(10);
+    if (error) throw error;
+    renderCommunityRows(data);
+  } catch {
+    container.innerHTML = '';
+    errEl.innerHTML = lbErrorMsg();
+    errEl.style.display = 'block';
+  }
+}
+
+function renderCommunityRows(rows) {
+  const container = document.getElementById('lb-rows');
+  container.innerHTML = '';
+
+  if (!rows || rows.length === 0) {
+    container.innerHTML =
+      '<div class="lb-row unsubmitted" style="justify-content:center">No scores yet — be the first!</div>';
+  } else {
+    rows.forEach((row, i) => {
+      const el = document.createElement('div');
+      el.className = 'lb-row';
+      el.innerHTML = `
+        <span class="lb-col-rank">${i + 1}</span>
+        <span class="lb-col-name">${escapeHtml(row.name)}</span>
+        <span class="lb-col-score">${parseInt(row.score, 10)}</span>
+      `;
+      container.appendChild(el);
+    });
+  }
+
+  const sep = document.createElement('div');
+  sep.className = 'lb-row sep';
+  sep.innerHTML = '<span class="lb-col-rank">…</span><span class="lb-col-name"></span><span class="lb-col-score"></span>';
+  container.appendChild(sep);
+
+  const playerRow = document.createElement('div');
+  if (lbPosted && lbPlayerRank !== null) {
+    playerRow.className = 'lb-row player';
+    playerRow.innerHTML = `
+      <span class="lb-col-rank">${lbPlayerRank}</span>
+      <span class="lb-col-name">${escapeHtml(lbPlayerName)} ← you</span>
+      <span class="lb-col-score">${score}</span>
+    `;
+  } else {
+    playerRow.className = 'lb-row player unsubmitted';
+    playerRow.innerHTML = `
+      <span class="lb-col-rank">—</span>
+      <span class="lb-col-name">— not submitted</span>
+      <span class="lb-col-score">—</span>
+    `;
+  }
+  container.appendChild(playerRow);
 }
 
 function renderPersonalBest() {
