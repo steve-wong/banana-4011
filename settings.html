@@ -16,18 +16,21 @@
     </div>
 
     <div class="settings-section">
-      <div class="settings-section-header">
+      <div class="settings-section-header filter-toggle-header" onclick="toggleFilter()">
         <span class="settings-section-title">PLU Filter</span>
-        <div class="select-all-wrap">
+        <span class="filter-chevron" id="filter-chevron">▸</span>
+      </div>
+      <div id="filter-collapsible" style="display:none">
+        <div class="select-all-wrap" style="margin-bottom:8px">
           <button class="text-btn" onclick="selectAllFilter(true)">Select All</button>
           <span class="divider">·</span>
           <button class="text-btn" onclick="selectAllFilter(false)">Deselect All</button>
         </div>
+        <div id="filter-warning" class="filter-warning" style="display:none">
+          Select at least 4 items to play
+        </div>
+        <div id="settings-list" class="settings-list"></div>
       </div>
-      <div id="filter-warning" class="filter-warning" style="display:none">
-        Select at least 4 items to play
-      </div>
-      <div id="settings-list" class="settings-list"></div>
     </div>
 
     <div class="settings-section">
@@ -141,6 +144,14 @@ function setLbDefault(val) {
   localStorage.setItem('plu_lb_default', val);
   document.getElementById('lbt-community').classList.toggle('active', val === 'community');
   document.getElementById('lbt-personal').classList.toggle('active', val === 'personal');
+}
+
+function toggleFilter() {
+  const collapsible = document.getElementById('filter-collapsible');
+  const chevron = document.getElementById('filter-chevron');
+  const isOpen = collapsible.style.display !== 'none';
+  collapsible.style.display = isOpen ? 'none' : '';
+  chevron.textContent = isOpen ? '▸' : '▾';
 }
 
 // Init
