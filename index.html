@@ -155,7 +155,6 @@
       <div class="lb-post-row" id="lb-post-row">
         <input type="text" id="lb-name-input" class="lb-name-input" placeholder="Your name" maxlength="20">
         <button class="lb-post-btn" id="lb-post-btn" onclick="postScore()">Post score</button>
-        <button class="btn secondary lb-home-btn" onclick="showStart()">Home</button>
       </div>
       <div class="lb-skip-wrap" id="lb-skip-wrap">
         <button class="text-btn" onclick="skipLeaderboard()">skip leaderboard</button>
@@ -163,6 +162,7 @@
     </div>
 
     <button class="btn lb-play-btn" onclick="startGame()">Play Again</button>
+    <button class="btn secondary" onclick="showStart()">Home</button>
   </div>
 
   <!-- SETTINGS SCREEN -->
@@ -225,8 +225,10 @@ let lbPlayerRank = null;
 let lbPlayerName = null;
 
 function getScoreHistory() {
-  const raw = localStorage.getItem('plu_score_history');
-  if (raw) return JSON.parse(raw);
+  try {
+    const raw = localStorage.getItem('plu_score_history');
+    if (raw) return JSON.parse(raw);
+  } catch { /* corrupted — fall through to migration */ }
   const best = parseInt(localStorage.getItem('plu_best') || '0');
   if (best > 0) return [{ score: best, correct: null, total: null, streak: null, date: new Date(0).toISOString() }];
   return [];
@@ -253,9 +255,8 @@ function showLeaderboard() {
   lbPlayerName = null;
   lbActiveTab = localStorage.getItem('plu_lb_default') || 'community';
 
-  recordGame(score, correctCount, TOTAL_ROUNDS, bestStreak);
 
-  const pct = score / (TOTAL_ROUNDS * POINTS_CORRECT);
+  const pct = score / (TOTAL_ROUNDS * (POINTS_CORRECT + STREAK_BONUS));
   let grade = '';
   if (pct >= 0.9)      grade = '🏆 Produce master!';
   else if (pct >= 0.7) grade = '🌟 Seasoned cashier!';
@@ -323,6 +324,7 @@ function postScore() {}
 
 function endGame() {
   clearInterval(timerInterval);
+  recordGame(score, correctCount, TOTAL_ROUNDS, bestStreak);
   showLeaderboard();
 }
 
