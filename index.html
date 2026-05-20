@@ -316,8 +316,51 @@ function renderCommunityBoard() {
 }
 
 function renderPersonalBest() {
-  document.getElementById('lb-rows').innerHTML =
-    '<div class="lb-row unsubmitted" style="justify-content:center">Loading…</div>';
+  const history = getScoreHistory();
+  const sorted = [...history].sort((a, b) => b.score - a.score);
+  const top10 = sorted.slice(0, 10);
+  const currentIdx = sorted.findIndex(e => e.date === currentGameEntryDate);
+  const container = document.getElementById('lb-rows');
+  container.innerHTML = '';
+
+  if (sorted.length === 0) {
+    container.innerHTML = '<div class="lb-row unsubmitted" style="justify-content:center">No games yet</div>';
+    return;
+  }
+
+  top10.forEach((entry, i) => {
+    const isCurrent = entry.date === currentGameEntryDate;
+    const label = isCurrent
+      ? 'You (now)'
+      : entry.date === new Date(0).toISOString()
+        ? 'Previous best'
+        : new Date(entry.date).toLocaleDateString();
+    const row = document.createElement('div');
+    row.className = 'lb-row' + (isCurrent ? ' player' : '');
+    row.innerHTML = `
+      <span class="lb-col-rank">${i + 1}</span>
+      <span class="lb-col-name">${label}</span>
+      <span class="lb-col-score">${entry.score}</span>
+    `;
+    container.appendChild(row);
+  });
+
+  if (currentIdx >= 10) {
+    const sep = document.createElement('div');
+    sep.className = 'lb-row sep';
+    sep.innerHTML = '<span class="lb-col-rank">…</span><span class="lb-col-name"></span><span class="lb-col-score"></span>';
+    container.appendChild(sep);
+
+    const entry = sorted[currentIdx];
+    const row = document.createElement('div');
+    row.className = 'lb-row player';
+    row.innerHTML = `
+      <span class="lb-col-rank">${currentIdx + 1}</span>
+      <span class="lb-col-name">You (now)</span>
+      <span class="lb-col-score">${entry.score}</span>
+    `;
+    container.appendChild(row);
+  }
 }
 
 function postScore() {}
