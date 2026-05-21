@@ -10,7 +10,7 @@
 
 ## Who's this for?
 
-**New cashiers in training** — There's no shame in looking up a PLU. But imagine the confidence of just *knowing* that bananas are 4011, that Roma tomatoes are 3421, or that the weird lumpy thing the customer swears is "just a squash" is actually a chayote (4756). A few rounds a day and you'll be flying through the keypad.
+**New cashiers in training** — There's no shame in looking up a PLU. But imagine the confidence of just *knowing* that bananas are 4011, that Roma tomatoes are 4087, or that the weird lumpy thing the customer swears is "just a squash" is actually a chayote (4756). A few rounds a day and you'll be flying through the keypad.
 
 **Veteran cashiers** — Think you've seen it all? Put your speed to the test. The timer goes down to 1 second. Yes, really.
 
